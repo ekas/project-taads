@@ -50,7 +50,7 @@ vulgarSlashFractionMatch = re.compile(r'(\d{1,3}\u2044\d{1,3})')
 numberAndVulgarSlashFraction = re.compile(r'(\d{1,3}?\s\d\u2044\d{1,3})')
 
 # pieced number, for example: 2 x 400g
-piecedNumberMatch = re.compile(r'([0-9]+)(\s|[^\s])(x|\u00D7)(\s|[^\s])([0-9]+)')
+piecedNumberMatch = re.compile(r'([0-9]+)(\s*)(x|\u00D7)(\s*)([0-9]+)')
 
 # any of the above, where the first character is not a word (to keep out "V8")
 quantityMatch = re.compile(r'(?<!\w)((\d{1,3}?\s\d\/\d{1,3})|(\d{1,3}?\s?\d\u2044\d{1,3})|(\d{1,3}\u2044\d{1,3})|(\d{1,3}\s?[\u00BC-\u00BE\u2150-\u215E])|([\u00BC-\u00BE\u2150-\u215E])|(\d{1,3}\/?\d?)%?|)')
@@ -109,13 +109,13 @@ def average(quantities):
     return total / n
 
 
-def cleanhtml(raw_html):
-    """ In some recipe websites, the ingredient can contain an HTML tag, mostly an anchor
-        to link to some other recipe. Let's remove those.
-    """
-    cleanr = re.compile('<.*?>')
-    cleantext = re.sub(cleanr, '', raw_html)
-    return cleantext
+# def cleanhtml(raw_html):
+#     """ In some recipe websites, the ingredient can contain an HTML tag, mostly an anchor
+#         to link to some other recipe. Let's remove those.
+#     """
+#     cleanr = re.compile('<.*?>')
+#     cleantext = re.sub(cleanr, '', raw_html)
+#     return cleantext
 
 
 def parse_ingredient(raw_ingredient : str) -> Ingredient:
@@ -124,7 +124,8 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
     # We're doing a VERY simple parse. This could probably be better with some NLP
     # but we have nowhere near time enough for that during this assignment.
 
-    ingredient = cleanhtml(raw_ingredient)
+    # ingredient = cleanhtml(raw_ingredient)
+    ingredient = raw_ingredient
     quantity = 0
     unit = ''
     name = ''
@@ -168,9 +169,8 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         quantities = match2
         quantity = ""
         for q in quantities[0]:
-            if q != ' ':
-                quantity += q + " "
-        last_quantity_character = len(quantity) - 1
+            quantity += q + ""
+        last_quantity_character = len(quantity)
         quantity = quantity.replace(" ", "")
     else:
         # Take all found regex matches and take them from their groups into a flat array
@@ -193,6 +193,7 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
             quantity_groups.pop()
 
         quantity = average(quantity_groups)
+        # quantity = quantity_groups[0]
 
     if last_quantity_character > 0:
         if ingredient[last_quantity_character] == ' ':

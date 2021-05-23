@@ -13,9 +13,10 @@ import ingredient_parser
 #     return parse_ingredient("12 ounces lean ground beef, preferably 85 percent lean")
 
 # result = ingredient_parser.parse_ingredient("12 ounces lean ground beef, preferably 85 percent lean")
-result = ingredient_parser.parse_ingredient("2 x 400g cans chopped tomatoes")
+result = ingredient_parser.parse_ingredient("2x400g cans chopped tomatoes")
 # result = ingredient_parser.parse_ingredient("2 rashers smoked streaky bacon")
 # result = ingredient_parser.parse_ingredient("1 celery stick, finely chopped")
 # result = ingredient_parser.parse_ingredient("500g beef mince")
-# result = ingredient_parser.parse_ingredient("1 fresh egg")
+# result = ingredient_parser.parse_ingredient("1 1/3 fresh egg")
+# result = ingredient_parser.parse_ingredient("1-2 fresh egg")
 print(f"Found results: \n {result}")
