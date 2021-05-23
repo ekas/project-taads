@@ -2,13 +2,15 @@ import unicodedata
 import re
 from dataclasses import dataclass
 
+
 @dataclass
 class Ingredient:
-    name : str
-    quantity : int
-    unit : str
-    comment : str
-    original_string : str
+    name: str
+    quantity: int
+    unit: str
+    comment: str
+    original_string: str
+
 
 # a predefined list of unit's
 units = {
@@ -55,11 +57,13 @@ quantityMatch = re.compile(r'(?<!\w)((\d{1,3}?\s\d\/\d{1,3})|(\d{1,3}?\s?\d\u204
 # string between parantheses, for example: "this is not a match (but this is, including the parantheses)"
 betweenParanthesesMatch = re.compile(r'\(([^\)]+)\)')
 
+
 def isFullTypedFraction(text : str) -> bool:
     if text.find('/') >= 0 or text.find('\u2044') >= 0:
         return True
     else:
         return False
+
 
 def toFloat(quantity : str) -> float:
     """ Parse a valid quantity string to a float """
@@ -89,6 +93,7 @@ def toFloat(quantity : str) -> float:
     if numberMatch.match(quantity) is not None:
         return int(quantity)
 
+
 def average(quantities):
     """ In the case we have multiple numbers in an ingredient string
         '1 - 2 eggs', we can use this function to just average that out.
@@ -103,6 +108,7 @@ def average(quantities):
         total += toFloat(q.strip(' '))
     return total / n
 
+
 def cleanhtml(raw_html):
     """ In some recipe websites, the ingredient can contain an HTML tag, mostly an anchor
         to link to some other recipe. Let's remove those.
@@ -110,6 +116,7 @@ def cleanhtml(raw_html):
     cleanr = re.compile('<.*?>')
     cleantext = re.sub(cleanr, '', raw_html)
     return cleantext
+
 
 def parse_ingredient(raw_ingredient : str) -> Ingredient:
     """ Tries to extract the quantity, the unit and the ingredient itself from a string """
@@ -143,7 +150,6 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         comment = comment.strip(' ')
         ingredient = commaSplitted[0]
 
-
     rest = ingredient
 
     last_quantity_character = 0
@@ -162,8 +168,9 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         quantities = match2
         quantity = ""
         for q in quantities[0]:
-            if(q != ' '):
+            if q != ' ':
                 quantity += q + " "
+        last_quantity_character = len(quantity) - 1
         quantity = quantity.replace(" ", "")
     else:
         # Take all found regex matches and take them from their groups into a flat array
@@ -172,7 +179,7 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         # We don't want percentages, but we couldn't match them with regex.
         quantity_groups = [i for i in quantity_groups if '%' not in i]
         q_n = len(quantity_groups)
-        
+
         # Find the last character index that matched a quantity
         last_quantity_character = ingredient.rfind(quantity_groups[q_n-1]) + len(quantity_groups[q_n-1])
 
@@ -184,7 +191,7 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
             else:
                 last_quantity_character = 0
             quantity_groups.pop()
-    
+
         quantity = average(quantity_groups)
 
     if last_quantity_character > 0:
@@ -200,7 +207,7 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
     # for example: 1 egg, where egg is both the ingredient and unit.
     if len(splitted) == 1:
         return Ingredient(rest, quantity, '', comment, ingredient)
-    
+
     # let's see if we can find something in the string that matches any
     # of my defined units. The list isn't finished and will probably miss
     # lot's of them. But by using a predefined list we avoid a situation where
@@ -212,7 +219,7 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         value = units[key]
         if wouldBeUnit in value:
             unit = key
-    
+
     # If we did have a unit, join the rest of the string
     # if we didn't, join the entire string
     if unit != '':
