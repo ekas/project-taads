@@ -1,31 +1,20 @@
-# project-taads-backend
+# taads
 
-Project repo for Taads &amp; HMI
+## Build Setup
 
-## Project setup
+```bash
+# install dependencies
+$ yarn install
 
-```
-yarn install
-```
+# serve with hot reload at localhost:3000
+$ yarn dev
 
-### Compiles and hot-reloads for development
+# build for production and launch server
+$ yarn build
+$ yarn start
 
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
+# generate static project
+$ yarn generate
 ```
 
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
