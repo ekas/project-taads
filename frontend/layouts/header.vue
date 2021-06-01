@@ -27,6 +27,6 @@
 }
 
 .headerItem:hover {
-  color: var(--primary-color);
+  color: var(--primary-hover-color);
 }
 </style>

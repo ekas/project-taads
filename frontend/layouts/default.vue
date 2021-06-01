@@ -26,6 +26,9 @@ html {
 
 :root {
   --primary-color: #ef4c00;
+  --primary-hover-color: #dd4b07;
+  --primary2-color: #b30733;
+  --primary2-light-color: #ff0043;
   --secondary-color: #23252d;
   --white-color: #fff;
   --bg-grey: #f4f9ff;
