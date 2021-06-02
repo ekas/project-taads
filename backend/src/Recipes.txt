@@ -1,12 +1,12 @@
 <ingredients>
     <item id=1>1 tbsp olive oil</item>
     <item id=2>2 rashers smoked streaky bacon</item>
-    <item id=3>1 onion , finely chopped</item>
+    <item id=3>1-2 onion , finely chopped</item>
     <item id=4>1 celery stick, finely chopped</item>
-    <item id=5>1 medium carrot , grated</item>
+    <item id=5>large handful basil leaves , torn (optional)</item>
     <item id=6>2 garlic cloves , finely chopped</item>
     <item id=7>500g beef mince</item>
     <item id=8>1 tbsp tomato purée</item>
     <item id=9>2 x 400g cans chopped tomatoes</item>
-    <item id=10>1 tbsp clear honey</item>
+    <item id=10>400ml crème fraîche</item>
 </ingredients>

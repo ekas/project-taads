@@ -48,14 +48,16 @@ slashFractionMatch = re.compile(r'(\d{1,3}\/\d{1,3})')
 vulgarSlashFractionMatch = re.compile(r'(\d{1,3}\u2044\d{1,3})')
 # number with a vulgar slash in a fraction (1 1⁄2)
 numberAndVulgarSlashFraction = re.compile(r'(\d{1,3}?\s\d\u2044\d{1,3})')
-
-# pieced number, for example: 2 x 400g
-piecedNumberMatch = re.compile(r'([0-9]+)(\s*)(x|\u00D7)(\s*)([0-9]+)')
-
 # any of the above, where the first character is not a word (to keep out "V8")
 quantityMatch = re.compile(r'(?<!\w)((\d{1,3}?\s\d\/\d{1,3})|(\d{1,3}?\s?\d\u2044\d{1,3})|(\d{1,3}\u2044\d{1,3})|(\d{1,3}\s?[\u00BC-\u00BE\u2150-\u215E])|([\u00BC-\u00BE\u2150-\u215E])|(\d{1,3}\/?\d?)%?|)')
 # string between parantheses, for example: "this is not a match (but this is, including the parantheses)"
 betweenParanthesesMatch = re.compile(r'\(([^\)]+)\)')
+
+# Exceptional cases
+# pieced number, for example: 2 x 400g
+piecedNumberMatch = re.compile(r'([0-9]+)(\s*)(x|\u00D7)(\s*)([0-9]+)')
+# pieced number, for example: 1-2
+dashNumberMatch = re.compile(r'([0-9]+)(\s*)(-)(\s*)([0-9]+)')
 
 
 def isFullTypedFraction(text : str) -> bool:
@@ -94,44 +96,19 @@ def toFloat(quantity : str) -> float:
         return int(quantity)
 
 
-def average(quantities):
-    """ In the case we have multiple numbers in an ingredient string
-        '1 - 2 eggs', we can use this function to just average that out.
-    """
-    # if there is no quantity in the string, there is a good chance the string was
-    # just "onion", in which case the quantity should be 1
-    if quantities is None or len(quantities) == 0:
-        return 1
-    total = 0
-    n = len(quantities)
-    for q in quantities:
-        total += toFloat(q.strip(' '))
-    return total / n
-
-
-# def cleanhtml(raw_html):
-#     """ In some recipe websites, the ingredient can contain an HTML tag, mostly an anchor
-#         to link to some other recipe. Let's remove those.
-#     """
-#     cleanr = re.compile('<.*?>')
-#     cleantext = re.sub(cleanr, '', raw_html)
-#     return cleantext
-
-
 def parse_ingredient(raw_ingredient : str) -> Ingredient:
     """ Tries to extract the quantity, the unit and the ingredient itself from a string """
 
     # We're doing a VERY simple parse. This could probably be better with some NLP
     # but we have nowhere near time enough for that during this assignment.
 
-    # ingredient = cleanhtml(raw_ingredient)
     ingredient = raw_ingredient
     quantity = 0
     unit = ''
     name = ''
     comment = ''
 
-    # Recipe websites tend to put a comment between parantheses. 
+    # Recipe websites tend to put a comment between parantheses.
     # for example: 1 (fresh) egg. Let's see if we can find any and extract it
     betweenMatch = betweenParanthesesMatch.search(ingredient)
     if betweenMatch is not None:
@@ -164,9 +141,17 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
     # a number and a vulgar fraction    -   1 ½ or 1½
     match = quantityMatch.findall(ingredient)
     match2 = piecedNumberMatch.findall(ingredient)
+    match3 = dashNumberMatch.findall(ingredient)
 
     if match2 is not None and len(match2) > 0:
         quantities = match2
+        quantity = ""
+        for q in quantities[0]:
+            quantity += q + ""
+        last_quantity_character = len(quantity)
+        quantity = quantity.replace(" ", "")
+    elif match3 is not None and len(match3) > 0:
+        quantities = match3
         quantity = ""
         for q in quantities[0]:
             quantity += q + ""
@@ -181,19 +166,19 @@ def parse_ingredient(raw_ingredient : str) -> Ingredient:
         q_n = len(quantity_groups)
 
         # Find the last character index that matched a quantity
-        last_quantity_character = ingredient.rfind(quantity_groups[q_n-1]) + len(quantity_groups[q_n-1])
+        if len(quantity_groups) != 0:
+            last_quantity_character = ingredient.rfind(quantity_groups[q_n-1]) + len(quantity_groups[q_n-1])
 
-        # If the last character happens to be in the end of the string...
-        # Someone probably said 'see note 1' in the end of his ingredient.
-        if last_quantity_character == len(ingredient) or last_quantity_character == len(ingredient) - 1:
-            if q_n > 1:
-                last_quantity_character = ingredient.rfind(quantity_groups[q_n-2]) + len(quantity_groups[q_n-2])
-            else:
-                last_quantity_character = 0
-            quantity_groups.pop()
+            # If the last character happens to be in the end of the string...
+            # Someone probably said 'see note 1' in the end of his ingredient.
+            if last_quantity_character == len(ingredient) or last_quantity_character == len(ingredient) - 1:
+                if q_n > 1:
+                    last_quantity_character = ingredient.rfind(quantity_groups[q_n-2]) + len(quantity_groups[q_n-2])
+                else:
+                    last_quantity_character = 0
+                quantity_groups.pop()
 
-        quantity = average(quantity_groups)
-        # quantity = quantity_groups[0]
+            quantity = quantity_groups[0]
 
     if last_quantity_character > 0:
         if ingredient[last_quantity_character] == ' ':
