@@ -150,7 +150,7 @@
       </div>
       <div class="recipeContainer">
         <div class="cardContainer">
-          <img src="~/assets/image1.png" width="100%" height="200px" />
+          <img src="~/assets/Image1.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Indian Chicken Platter</span>
@@ -206,7 +206,7 @@
           </div>
         </div>
         <div class="cardContainer">
-          <img src="~/assets/image2.png" width="100%" height="200px" />
+          <img src="~/assets/Image2.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Risotto</span>
@@ -262,7 +262,7 @@
           </div>
         </div>
         <div class="cardContainer">
-          <img src="~/assets/image3.png" width="100%" height="200px" />
+          <img src="~/assets/Image3.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Maslenitca</span>
@@ -315,7 +315,7 @@
           </div>
         </div>
         <div class="cardContainer">
-          <img src="~/assets/image4.png" width="100%" height="200px" />
+          <img src="~/assets/Image4.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Moussaka</span>
@@ -371,7 +371,7 @@
           </div>
         </div>
         <div class="cardContainer">
-          <img src="~/assets/image5.png" width="100%" height="200px" />
+          <img src="~/assets/Image5.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Capachino</span>
@@ -427,7 +427,7 @@
           </div>
         </div>
         <div class="cardContainer">
-          <img src="~/assets/image6.png" width="100%" height="200px" />
+          <img src="~/assets/Image6.png" width="100%" height="200px" />
           <div class="cardContent">
             <div class="cardTitleRow">
               <span class="cardTitle">Arabic Mandi</span>
