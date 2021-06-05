@@ -150,7 +150,7 @@ export default {
   background-color: var(--white-color);
   width: 100%;
   /* height: 100%; */
-  margin: 100px;
+  margin: 220px;
 }
 
 .form {
