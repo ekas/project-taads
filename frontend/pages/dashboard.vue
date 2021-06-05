@@ -20,9 +20,9 @@
                 </b-form-input>
               </b-form-group>
               <b-form-group
-                label="Recipe Name"
+                label="Cuisine Name"
                 label-for="input-1"
-                description="Please mention name of your favorite recipe."
+                description="Please mention name of your favorite cuisine."
               >
                 <b-form-input
                   id="input-1"
