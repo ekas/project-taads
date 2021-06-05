@@ -11,35 +11,28 @@
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New Recipe Risotto Added from Italy</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New User Added from Italy</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New Recipe Maslenitca Added from Russia</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Added</p>
+          <p>New User Added from Russia</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
@@ -56,35 +49,28 @@
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New Recipe Risotto Added from Italy</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New User Added from Italy</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
+          <p>New Recipe Maslenitca Added from Russia</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
             height="15"
           />
-          <p>New Recipe Added</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Added</p>
+          <p>New User Added from Russia</p>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
