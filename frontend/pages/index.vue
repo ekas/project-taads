@@ -1,481 +1,474 @@
 <template>
   <div>
-    <div fluid class="main">
-      <img src="~/assets/logo.png" class="logo" />
-      <div class="bg"></div>
-      <h1 class="mainHeading">Find Your Favourite Cuisines</h1>
-      <div class="newsStrip">
-        <p class="marquee">
-          <span class="marqueeSpan">
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-          </span>
-        </p>
-        <p class="marquee marquee2">
-          <span>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-            <p>New Recipe Added</p>
-            <img
-              src="~/assets/star.svg"
-              class="newsStripStart"
-              width="15"
-              height="15"
-            />
-          </span>
-        </p>
-      </div>
-      <div class="searchBar">
-        <h3 class="ourMealsHeading">Our Meals</h3>
-        <div class="filterContainer">
-          <div class="searchInputContainer">
-            <input
-              type="text"
-              class="searchInput"
-              placeholder="Search by name"
-            />
-            <img
-              src="~/assets/search.svg"
-              class="searchIcon"
-              width="20px"
-              height="20px"
-            />
-          </div>
-          <div class="filter">
-            <img
-              src="~/assets/settings.svg"
-              class="searchIcon"
-              width="20px"
-              height="20px"
-            />
-          </div>
+    <div class="bg"></div>
+    <h1 class="mainHeading">Find Your Favourite Cuisines</h1>
+    <div class="newsStrip">
+      <p class="marquee">
+        <span class="marqueeSpan">
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+        </span>
+      </p>
+      <p class="marquee marquee2">
+        <span>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+          <p>New Recipe Added</p>
+          <img
+            src="~/assets/star.svg"
+            class="newsStripStart"
+            width="15"
+            height="15"
+          />
+        </span>
+      </p>
+    </div>
+    <div class="searchBar">
+      <h3 class="ourMealsHeading">Our Meals</h3>
+      <div class="filterContainer">
+        <div class="searchInputContainer">
+          <input type="text" class="searchInput" placeholder="Search by name" />
+          <img
+            src="~/assets/search.svg"
+            class="searchIcon"
+            width="20px"
+            height="20px"
+          />
+        </div>
+        <div class="filter">
+          <img
+            src="~/assets/settings.svg"
+            class="searchIcon"
+            width="20px"
+            height="20px"
+          />
         </div>
       </div>
-      <div class="filterCheckBoxContainer">
-        <span class="filterCheckBoxActive">
-          <span>All</span>
-          <span> (170)</span>
-        </span>
-        <span class="filterCheckBox">
-          <span>Break Fast</span>
-          <span> (23)</span>
-        </span>
-        <span class="filterCheckBox">
-          <span>Lunch</span>
-          <span> (41)</span>
-        </span>
-        <span class="filterCheckBox">
-          <span>Drinks</span>
-          <span> (53)</span>
-        </span>
-        <span class="filterCheckBox">
-          <span>Desserts</span>
-          <span> (33)</span>
-        </span>
-        <span class="filterCheckBox">
-          <span>Fastfood</span>
-          <span> (20)</span>
-        </span>
+    </div>
+    <div class="filterCheckBoxContainer">
+      <span class="filterCheckBoxActive">
+        <span>All</span>
+        <span> (170)</span>
+      </span>
+      <span class="filterCheckBox">
+        <span>Break Fast</span>
+        <span> (23)</span>
+      </span>
+      <span class="filterCheckBox">
+        <span>Lunch</span>
+        <span> (41)</span>
+      </span>
+      <span class="filterCheckBox">
+        <span>Drinks</span>
+        <span> (53)</span>
+      </span>
+      <span class="filterCheckBox">
+        <span>Desserts</span>
+        <span> (33)</span>
+      </span>
+      <span class="filterCheckBox">
+        <span>Fastfood</span>
+        <span> (20)</span>
+      </span>
+    </div>
+    <div class="recipeContainer">
+      <div class="cardContainer">
+        <img src="~/assets/Image1.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Indian Chicken Platter</span>
+            <img
+              src="~/assets/heartMarked.svg"
+              width="18px"
+              class="recipeHeart"
+            />
+          </div>
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>Indian</span>
+              </span>
+              <span class="recipeTag">
+                <span>Pakistani</span>
+              </span>
+            </div>
+            <div class="recipeTime"><span>we</span> 20-30</div>
+          </div>
+        </div>
       </div>
-      <div class="recipeContainer">
-        <div class="cardContainer">
-          <img src="~/assets/Image1.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Indian Chicken Platter</span>
-              <img
-                src="~/assets/heartMarked.svg"
-                width="18px"
-                class="recipeHeart"
-              />
+      <div class="cardContainer">
+        <img src="~/assets/Image2.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Risotto</span>
+            <img
+              src="~/assets/heartMarked.svg"
+              width="18px"
+              class="recipeHeart"
+            />
+          </div>
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>Italian</span>
+              </span>
+              <span class="recipeTag">
+                <span>European</span>
+              </span>
             </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>Indian</span>
-                </span>
-                <span class="recipeTag">
-                  <span>Pakistani</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 20-30</div>
-            </div>
+            <div class="recipeTime"><span>we</span> 10-20</div>
           </div>
         </div>
-        <div class="cardContainer">
-          <img src="~/assets/Image2.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Risotto</span>
-              <img
-                src="~/assets/heartMarked.svg"
-                width="18px"
-                class="recipeHeart"
-              />
+      </div>
+      <div class="cardContainer">
+        <img src="~/assets/Image3.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Maslenitca</span>
+            <img
+              src="~/assets/heartMarked.svg"
+              width="18px"
+              class="recipeHeart"
+            />
+          </div>
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>Russian</span>
+              </span>
             </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>Italian</span>
-                </span>
-                <span class="recipeTag">
-                  <span>European</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 10-20</div>
-            </div>
+            <div class="recipeTime"><span>we</span> 25-35</div>
           </div>
         </div>
-        <div class="cardContainer">
-          <img src="~/assets/Image3.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Maslenitca</span>
-              <img
-                src="~/assets/heartMarked.svg"
-                width="18px"
-                class="recipeHeart"
-              />
+      </div>
+      <div class="cardContainer">
+        <img src="~/assets/Image4.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Moussaka</span>
+            <img
+              src="~/assets/heartMarked.svg"
+              width="18px"
+              class="recipeHeart"
+            />
+          </div>
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>Italian</span>
+              </span>
+              <span class="recipeTag">
+                <span>Greek</span>
+              </span>
             </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>Russian</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 25-35</div>
-            </div>
+            <div class="recipeTime"><span>we</span> 15-25</div>
           </div>
         </div>
-        <div class="cardContainer">
-          <img src="~/assets/Image4.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Moussaka</span>
-              <img
-                src="~/assets/heartMarked.svg"
-                width="18px"
-                class="recipeHeart"
-              />
+      </div>
+      <div class="cardContainer">
+        <img src="~/assets/Image5.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Capachino</span>
+            <img
+              src="~/assets/heartMarked.svg"
+              width="18px"
+              class="recipeHeart"
+            />
+          </div>
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>American</span>
+              </span>
+              <span class="recipeTag">
+                <span>European</span>
+              </span>
             </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>Italian</span>
-                </span>
-                <span class="recipeTag">
-                  <span>Greek</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 15-25</div>
-            </div>
+            <div class="recipeTime"><span>we</span> 20-30</div>
           </div>
         </div>
-        <div class="cardContainer">
-          <img src="~/assets/Image5.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Capachino</span>
-              <img
-                src="~/assets/heartMarked.svg"
-                width="18px"
-                class="recipeHeart"
-              />
-            </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>American</span>
-                </span>
-                <span class="recipeTag">
-                  <span>European</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 20-30</div>
-            </div>
+      </div>
+      <div class="cardContainer">
+        <img src="~/assets/Image6.png" width="100%" height="200px" />
+        <div class="cardContent">
+          <div class="cardTitleRow">
+            <span class="cardTitle">Arabic Mandi</span>
+            <img src="~/assets/heart.svg" width="18px" class="recipeHeart" />
           </div>
-        </div>
-        <div class="cardContainer">
-          <img src="~/assets/Image6.png" width="100%" height="200px" />
-          <div class="cardContent">
-            <div class="cardTitleRow">
-              <span class="cardTitle">Arabic Mandi</span>
-              <img src="~/assets/heart.svg" width="18px" class="recipeHeart" />
+          <div class="recipeStars">
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStar"
+              width="15"
+              height="15"
+            />
+            <img
+              src="~/assets/star.svg"
+              class="recipeStarOpaque"
+              width="15"
+              height="15"
+            />
+          </div>
+          <div class="cardTitleRow">
+            <div class="recipeTagsContainer">
+              <span class="recipeTag">
+                <span>Arabic</span>
+              </span>
+              <span class="recipeTag">
+                <span>Turkish</span>
+              </span>
             </div>
-            <div class="recipeStars">
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStar"
-                width="15"
-                height="15"
-              />
-              <img
-                src="~/assets/star.svg"
-                class="recipeStarOpaque"
-                width="15"
-                height="15"
-              />
-            </div>
-            <div class="cardTitleRow">
-              <div class="recipeTagsContainer">
-                <span class="recipeTag">
-                  <span>Arabic</span>
-                </span>
-                <span class="recipeTag">
-                  <span>Turkish</span>
-                </span>
-              </div>
-              <div class="recipeTime"><span>we</span> 35-45</div>
-            </div>
+            <div class="recipeTime"><span>we</span> 35-45</div>
           </div>
         </div>
       </div>
@@ -489,12 +482,8 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  margin: 15px 50px 100px;
-  position: relative;
-}
-
 .bg {
+  margin-top: 20px;
   height: 391px;
   border-radius: 20px;
   background-size: cover;
@@ -503,20 +492,13 @@ export default {
   background-image: url("~/assets/bg.png");
 }
 
-.logo {
-  top: -69px;
-  left: -20px;
-  position: absolute;
-  width: 180px;
-}
-
 .mainHeading {
   color: var(--white-color);
   position: absolute;
   font-style: italic;
   font-weight: 700;
-  top: 250px;
-  left: 30px;
+  top: 290px;
+  left: 50px;
   width: 400px;
 }
 

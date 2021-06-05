@@ -1,14 +1,31 @@
 <template>
-  <nav>
-    <b-container fluid class="header">
-      <NuxtLink to="/" class="headerItem active">Search</NuxtLink>
-      <NuxtLink to="/" class="headerItem">Login</NuxtLink>
-      <NuxtLink to="/" class="headerItem">Register</NuxtLink>
-    </b-container>
+  <div class="main">
+    <nav>
+      <b-container fluid class="header">
+        <NuxtLink to="/" class="headerItem active">Search</NuxtLink>
+        <NuxtLink to="/login" class="headerItem">Login</NuxtLink>
+        <NuxtLink to="/register" class="headerItem">Register</NuxtLink>
+        <NuxtLink to="/dashboard" class="headerItem">My Dashboard</NuxtLink>
+      </b-container>
+    </nav>
+    <img src="~/assets/logo.png" class="logo" />
+
     <Nuxt />
-  </nav>
+  </div>
 </template>
 <style scoped>
+.main {
+  margin: 15px 50px 50px;
+  position: relative;
+}
+
+.logo {
+  top: -2px;
+  left: -20px;
+  position: absolute;
+  width: 180px;
+}
+
 .header {
   padding-top: 20px;
   display: flex;
