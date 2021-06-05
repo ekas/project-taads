@@ -26,12 +26,13 @@ async def list_users(request: Request):
     return users
 
 
-# @router.get("/{id}", response_description="Get a single user")
-# async def show_user(id: str, request: Request):
-#     if (user := await request.app.mongodb["users"].find_one({"_id": id})) is not None:
-#         return user
+@router.get("/{id}", response_description="Get a single user")
+async def show_user(id: str, request: Request):
+    user = await request.app.mongodb["users"].find_one({"_id": id})
+    if user is not None:
+        return user
 
-#     raise HTTPException(status_code=404, detail=f"User {id} not found")
+    raise HTTPException(status_code=404, detail=f"User {id} not found")
 
 
 @router.put("/{id}", response_description="Update User with Cuisine Data")
@@ -44,19 +45,12 @@ async def update_user(id: str, request: Request, user: UpdateUserModel = Body(..
         )
 
         if update_result.modified_count == 1:
-            if not (
-                (
-                    updated_user := await request.app.mongodb["users"].find_one(
-                        {"_id": id}
-                    )
-                )
-                is None
-            ):
+            updated_user = await request.app.mongodb["users"].find_one({"_id": id})
+            if updated_user is not None:
                 return updated_user
 
-    if (
-        existing_user := await request.app.mongodb["users"].find_one({"_id": id})
-    ) is not None:
+    existing_user = await request.app.mongodb["users"].find_one({"_id": id})
+    if existing_user is not None:
         return existing_user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")
