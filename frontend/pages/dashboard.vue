@@ -9,12 +9,25 @@
               <b-form-group
                 label="Country of Origin"
                 label-for="input-1"
-                description="Please mention which country you belong to.."
+                description="Please mention which country you belong to."
               >
                 <b-form-input
                   id="input-1"
                   type="email"
                   placeholder="Germany"
+                  required
+                >
+                </b-form-input>
+              </b-form-group>
+              <b-form-group
+                label="Recipe Name"
+                label-for="input-1"
+                description="Please mention name of your favorite recipe."
+              >
+                <b-form-input
+                  id="input-1"
+                  type="email"
+                  placeholder="Chicken Platter"
                   required
                 >
                 </b-form-input>
