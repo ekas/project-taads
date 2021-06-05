@@ -124,7 +124,7 @@ export default {
   layout: "header",
   data() {
     return {
-      value: ["Germnay", "France"]
+      value: ["Germany", "France"]
     };
   }
 };
