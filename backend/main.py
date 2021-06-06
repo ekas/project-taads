@@ -4,13 +4,15 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from routes.user_routes import user_router
 from routes.auth_routes import auth_router
+from routes.news_routes import news_router
 
 from config import settings
 
 app = FastAPI()
 
-app.include_router(auth_router, tags=["auth"])
+app.include_router(auth_router, tags=["Auth"])
 app.include_router(user_router, tags=["Users"], prefix="/users")
+app.include_router(news_router, tags=["News"], prefix="/news")
 
 
 @app.on_event("startup")
