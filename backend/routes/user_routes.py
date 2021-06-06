@@ -39,26 +39,21 @@ async def update_user(request: Request, user: UpdateUserModel = Body(...), id=De
             {"_id": id}, {"$set": user}
         )
 
-        if update_result.modified_count == 1:
-            updated_user = await request.app.mongodb["users"].find_one({"_id": id})
-            if updated_user is not None:
-                return updated_user
+        updated_user = await request.app.mongodb["users"].find_one({"_id": id})
+        if updated_user is not None:
+            extracted_ingredients = []
+            for ingredient in updated_user['ingredients']:
+                extracted_ingredients.append(parse_ingredient(ingredient))
 
-    existing_user = await request.app.mongodb["users"].find_one({"_id": id})
-    if existing_user is not None:
-        extracted_ingredients = []
-        for ingredient in user['ingredients']:
-            extracted_ingredients.append(parse_ingredient(ingredient))
-
-        extracted_ingredients = jsonable_encoder(extracted_ingredients)
-        new_cuisine = await request.app.mongodb["cuisines"].insert_one({
-            "_id": id,
-            "cuisine_name": user['cuisine_name'],
-            "country_cuisine": user['country_cuisine'],
-            "ingredients": jsonable_encoder(extracted_ingredients),
-            "time_to_cook": user['time_to_cook'],
-        })
-        return existing_user
+            extracted_ingredients = jsonable_encoder(extracted_ingredients)
+            new_cuisine = await request.app.mongodb["cuisines"].insert_one({
+                "_id": id,
+                "cuisine_name": updated_user['cuisine_name'],
+                "country_cuisine": updated_user['country_cuisine'],
+                "ingredients": jsonable_encoder(extracted_ingredients),
+                "time_to_cook": updated_user['time_to_cook'],
+            })
+            return updated_user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")
 
