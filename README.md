@@ -16,6 +16,10 @@ Project repo for Taads &amp; HMI
 - [ ] source venv/bin/activate
 - [ ] pip3 install -r requirements.txt
 - [ ] python3 main.py
+- [ ] http://localhost:4000/docs
+
+## Backend on Docker
+
 - [ ] docker build -t taads .
 - [ ] docker run -d --name taads-container -p 4000:4000 taads
 - [ ] http://localhost:4000/docs
