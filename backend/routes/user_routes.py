@@ -6,6 +6,8 @@ from typing import List
 from auth.config import AuthHandler
 from schema.users import UserModel, UpdateUserModel, LoginUserModel
 
+from ingredient_parser import parse_ingredient
+
 user_router = APIRouter()
 
 auth_handler = AuthHandler()
@@ -44,6 +46,16 @@ async def update_user(request: Request, user: UpdateUserModel = Body(...), id=De
 
     existing_user = await request.app.mongodb["users"].find_one({"_id": id})
     if existing_user is not None:
+        extracted_ingredients = []
+        for ingredient in user['ingredients']:
+            extracted_ingredients.append(parse_ingredient(ingredient))
+
+        new_cuisine = await request.app.mongodb["cuisines"].insert_one({
+            "cuisine_name": user['cuisine_name'],
+            "country_cuisine": user['country_cuisine'],
+            "ingredients": jsonable_encoder(extracted_ingredients),
+            "time_to_cook": user['time_to_cook'],
+        })
         return existing_user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")
