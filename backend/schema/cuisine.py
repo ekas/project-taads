@@ -27,7 +27,7 @@ class CuisineIngredientModel(BaseModel):
 class CuisineModel(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     cuisine_name: str = Field(...)
-    ingredients: [CuisineIngredientModel] = []
+    ingredients: List[CuisineIngredientModel] = []
     country_cuisine: List[str] = []
     time_to_cook: str = Field(...)
 
