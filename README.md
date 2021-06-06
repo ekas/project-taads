@@ -4,6 +4,7 @@ Project repo for Taads &amp; HMI
 
 ## Frontend
 
+- [ ] cd frontend
 - [ ] yarn install
 - [ ] yarn run dev
 - [ ] http://localhost:3000
