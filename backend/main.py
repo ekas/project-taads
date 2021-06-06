@@ -2,12 +2,14 @@ import uvicorn
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from routes import router as user_router
+from user_routes import user_router
+from auth_routes import auth_router
 
 from config import settings
 
 app = FastAPI()
 
+app.include_router(auth_router, tags=["auth"])
 app.include_router(user_router, tags=["Users"], prefix="/users")
 
 

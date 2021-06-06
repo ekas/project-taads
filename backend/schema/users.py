@@ -4,24 +4,36 @@ from typing import Optional, List
 from pydantic import BaseModel, Field
 
 
-class UserModel(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    name: str = Field(...)
+class LoginUserModel(BaseModel):
     email: str = Field(...)
     password: str = Field(...)
-    confirm_password: str = Field(...)
 
     class Config:
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "id": "00010203-0405-0607-0809-0a0b0c0d0e0f",
+                "email": "ekaspreet93.singh@gmail.com",
+                "password": "ekas@Something",
+            }
+        }
+
+
+class UserModel(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    name: str = Field(...)
+    email: str = Field(...)
+    password: str = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
                 "name": "Ekas Preet Singh",
                 "email": "ekaspreet93.singh@gmail.com",
                 "password": "ekas@Something",
-                "confirm_password": "ekas@Something",
             }
         }
+
 
 class UpdateUserModel(BaseModel):
     name: Optional[str]
