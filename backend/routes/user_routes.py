@@ -50,7 +50,9 @@ async def update_user(request: Request, user: UpdateUserModel = Body(...), id=De
         for ingredient in user['ingredients']:
             extracted_ingredients.append(parse_ingredient(ingredient))
 
+        extracted_ingredients = jsonable_encoder(extracted_ingredients)
         new_cuisine = await request.app.mongodb["cuisines"].insert_one({
+            "_id": id,
             "cuisine_name": user['cuisine_name'],
             "country_cuisine": user['country_cuisine'],
             "ingredients": jsonable_encoder(extracted_ingredients),
