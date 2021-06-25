@@ -29,6 +29,9 @@ class CuisineModel(BaseModel):
     cuisine_name: str = Field(...)
     ingredients: List[CuisineIngredientModel] = []
     country_cuisine: List[str] = []
+    spicy: str = Field(...)
+    vegetarian: bool = Field(...)
+    vegan: bool = Field(...)
     time_to_cook: str = Field(...)
 
     class Config:
@@ -37,6 +40,9 @@ class CuisineModel(BaseModel):
             "example": {
                 "cuisine_name": "Chicken Platter",
                 "country_cuisine": ["Germany", "France"],
+                "spicy": "0",
+                "vegetarian": "true",
+                "vegan": "false",
                 "time_to_cook": "20-30",
             }
         }

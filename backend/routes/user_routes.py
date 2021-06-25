@@ -8,6 +8,8 @@ from schema.users import UserModel, UpdateUserModel, LoginUserModel
 
 from ingredient_parser import parse_ingredient
 
+import time
+
 user_router = APIRouter()
 
 auth_handler = AuthHandler()
@@ -51,6 +53,9 @@ async def update_user(request: Request, user: UpdateUserModel = Body(...), id=De
                 "cuisine_name": updated_user['cuisine_name'],
                 "country_cuisine": updated_user['country_cuisine'],
                 "ingredients": jsonable_encoder(extracted_ingredients),
+                "spicy": updated_user['spicy'],
+                "vegetarian": updated_user['vegetarian'],
+                "vegan": updated_user['vegan'],
                 "time_to_cook": updated_user['time_to_cook'],
             })
             return updated_user
