@@ -128,12 +128,14 @@
         <span> (20)</span>
       </span>
     </div>
-    <div class="recipeContainer">
-      <div class="cardContainer">
+    <p v-if="$fetchState.pending">Fetching cuisines...</p>
+    <p v-else-if="$fetchState.error">An error occurred :(</p>
+    <div class="recipeContainer" v-else>
+      <div class="cardContainer" v-for="cuisine of cuisines" :key="cuisine._id">
         <img src="~/assets/Image1.png" width="100%" height="200px" />
         <div class="cardContent">
           <div class="cardTitleRow">
-            <span class="cardTitle">Indian Chicken Platter</span>
+            <span class="cardTitle">{{ cuisine.cuisine_name }}</span>
             <img
               src="~/assets/heartMarked.svg"
               width="18px"
@@ -174,287 +176,17 @@
           </div>
           <div class="cardTitleRow">
             <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>Indian</span>
-              </span>
-              <span class="recipeTag">
-                <span>Pakistani</span>
-              </span>
-            </div>
-            <div class="recipeTime"><span>we</span> 20-30</div>
-          </div>
-        </div>
-      </div>
-      <div class="cardContainer">
-        <img src="~/assets/Image2.png" width="100%" height="200px" />
-        <div class="cardContent">
-          <div class="cardTitleRow">
-            <span class="cardTitle">Risotto</span>
-            <img
-              src="~/assets/heartMarked.svg"
-              width="18px"
-              class="recipeHeart"
-            />
-          </div>
-          <div class="recipeStars">
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-          </div>
-          <div class="cardTitleRow">
-            <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>Italian</span>
-              </span>
-              <span class="recipeTag">
-                <span>European</span>
+              <span
+                class="recipeTag"
+                v-for="country of cuisines.country_cuisine"
+                :key="cuisine._id + country"
+              >
+                <span>{{ country }}</span>
               </span>
             </div>
-            <div class="recipeTime"><span>we</span> 10-20</div>
-          </div>
-        </div>
-      </div>
-      <div class="cardContainer">
-        <img src="~/assets/Image3.png" width="100%" height="200px" />
-        <div class="cardContent">
-          <div class="cardTitleRow">
-            <span class="cardTitle">Maslenitca</span>
-            <img
-              src="~/assets/heartMarked.svg"
-              width="18px"
-              class="recipeHeart"
-            />
-          </div>
-          <div class="recipeStars">
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-          </div>
-          <div class="cardTitleRow">
-            <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>Russian</span>
-              </span>
+            <div class="recipeTime">
+              <span>we</span> {{ cuisine.time_to_cook }} mins
             </div>
-            <div class="recipeTime"><span>we</span> 25-35</div>
-          </div>
-        </div>
-      </div>
-      <div class="cardContainer">
-        <img src="~/assets/Image4.png" width="100%" height="200px" />
-        <div class="cardContent">
-          <div class="cardTitleRow">
-            <span class="cardTitle">Moussaka</span>
-            <img
-              src="~/assets/heartMarked.svg"
-              width="18px"
-              class="recipeHeart"
-            />
-          </div>
-          <div class="recipeStars">
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-          </div>
-          <div class="cardTitleRow">
-            <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>Italian</span>
-              </span>
-              <span class="recipeTag">
-                <span>Greek</span>
-              </span>
-            </div>
-            <div class="recipeTime"><span>we</span> 15-25</div>
-          </div>
-        </div>
-      </div>
-      <div class="cardContainer">
-        <img src="~/assets/Image5.png" width="100%" height="200px" />
-        <div class="cardContent">
-          <div class="cardTitleRow">
-            <span class="cardTitle">Capachino</span>
-            <img
-              src="~/assets/heartMarked.svg"
-              width="18px"
-              class="recipeHeart"
-            />
-          </div>
-          <div class="recipeStars">
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-          </div>
-          <div class="cardTitleRow">
-            <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>American</span>
-              </span>
-              <span class="recipeTag">
-                <span>European</span>
-              </span>
-            </div>
-            <div class="recipeTime"><span>we</span> 20-30</div>
-          </div>
-        </div>
-      </div>
-      <div class="cardContainer">
-        <img src="~/assets/Image6.png" width="100%" height="200px" />
-        <div class="cardContent">
-          <div class="cardTitleRow">
-            <span class="cardTitle">Arabic Mandi</span>
-            <img src="~/assets/heart.svg" width="18px" class="recipeHeart" />
-          </div>
-          <div class="recipeStars">
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStar"
-              width="15"
-              height="15"
-            />
-            <img
-              src="~/assets/star.svg"
-              class="recipeStarOpaque"
-              width="15"
-              height="15"
-            />
-          </div>
-          <div class="cardTitleRow">
-            <div class="recipeTagsContainer">
-              <span class="recipeTag">
-                <span>Arabic</span>
-              </span>
-              <span class="recipeTag">
-                <span>Turkish</span>
-              </span>
-            </div>
-            <div class="recipeTime"><span>we</span> 35-45</div>
           </div>
         </div>
       </div>
@@ -463,7 +195,18 @@
 </template>
 <script lang="ts">
 export default {
-  layout: "header"
+  layout: "header",
+  data() {
+    return {
+      cuisines: []
+    };
+  },
+  async fetch() {
+    this.cuisines = await fetch(
+      process.env.BACKEND_BASE_URL + "cuisines"
+    ).then(res => res.json());
+  },
+  fetchOnServer: false
 };
 </script>
 
@@ -586,7 +329,7 @@ export default {
 }
 
 .filterCheckBoxContainer {
-  margin-top: 60px;
+  margin: 60px 0 30px;
   display: flex;
 }
 

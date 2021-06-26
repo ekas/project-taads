@@ -42,5 +42,8 @@ export default {
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+  env: {
+    BACKEND_BASE_URL: "http://localhost:4000/"
+  }
 };

@@ -22,7 +22,6 @@ async def list_cuisines(request: Request):
     for doc in await request.app.mongodb["cuisines"].find().to_list(length=100):
         cuisines.append(doc)
 
-    print(cuisines)
     return cuisines
 
 
