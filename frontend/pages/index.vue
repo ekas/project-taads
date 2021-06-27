@@ -4,73 +4,16 @@
     <h1 class="mainHeading">Find Your Favourite Cuisines</h1>
     <div class="newsStrip">
       <p class="marquee">
-        <span class="marqueeSpan">
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Risotto Added from Italy</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New User Added from Italy</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Maslenitca Added from Russia</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New User Added from Russia</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-        </span>
-      </p>
-      <p class="marquee marquee2">
-        <span>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Risotto Added from Italy</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New User Added from Italy</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New Recipe Maslenitca Added from Russia</p>
-          <img
-            src="~/assets/star.svg"
-            class="newsStripStart"
-            width="15"
-            height="15"
-          />
-          <p>New User Added from Russia</p>
+        <span class="marqueeSpan" v-for="ticker of news" :key="ticker._id">
+          <span>
+            <img
+              src="~/assets/star.svg"
+              class="newsStripStart"
+              width="15"
+              height="15"
+            />
+            <p>{{ ticker.title }}</p>
+          </span>
           <img
             src="~/assets/star.svg"
             class="newsStripStart"
@@ -198,13 +141,18 @@ export default {
   layout: "header",
   data() {
     return {
-      cuisines: []
+      cuisines: [],
+      news: []
     };
   },
   async fetch() {
     this.cuisines = await fetch(
       process.env.BACKEND_BASE_URL + "cuisines"
     ).then(res => res.json());
+
+    this.news = await fetch(process.env.BACKEND_BASE_URL + "news").then(res =>
+      res.json()
+    );
   },
   fetchOnServer: false
 };
@@ -255,7 +203,7 @@ export default {
   position: absolute;
 }
 
-.marquee span {
+.marquee .marqueeSpan {
   display: inline-block;
   padding-left: 100%;
   animation: marquee 50s linear infinite;
@@ -263,10 +211,6 @@ export default {
 
 .marquee p {
   display: inline-block;
-}
-
-.marquee2 span {
-  animation-delay: 0s;
 }
 
 @keyframes marquee {
