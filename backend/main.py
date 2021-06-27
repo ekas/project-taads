@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from routes.user_routes import user_router
@@ -11,6 +12,18 @@ from routes.cuisines_routes import cuisines_router
 from config import settings
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(auth_router, tags=["Auth"])
 app.include_router(user_router, tags=["Users"], prefix="/users")
@@ -27,6 +40,7 @@ async def startup_db_client():
 @app.on_event("shutdown")
 async def shutdown_db_client():
     app.mongodb_client.close()
+
 
 if __name__ == "__main__":
     uvicorn.run(
