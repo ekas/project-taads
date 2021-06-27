@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from typing import List, Optional
 from pydantic import BaseModel
+import re
 
 from schema.cuisine import CuisineModel
 
@@ -14,6 +15,7 @@ class Params(BaseModel):
     vegetarian: bool
     vegan: bool
     cuisine_name: str
+    ingredients: List[str]
 
 
 @cuisines_router.get("/", status_code=200, response_description="List All Cuisines",)
@@ -39,42 +41,47 @@ async def delete_cuisine(request: Request, id=str):
 @cuisines_router.get("/search", status_code=200, response_description="Search cuisines")
 async def search_cuisine(request: Request, params: Params = Body(...)):
 
-    # params: List[str]
-
-    # spicy: Optional[str] = None, ingredients: Optional[str] = None,
-    # vegetarian: Optional[bool] = None, vegan: Optional[bool] = None
-
-    # cuisinesQuery = {"cuisine_name": params.cuisine_name, "spicy": params.spicy,
-    #                  "vegetarian": params.vegetarian, "vegan": params.vegan}
+    cuisineNameMatch = re.compile(params.cuisine_name, flags=re.IGNORECASE)
 
     spicyQuery = {"spicy": params.spicy}
-    vegetarianQuery = {"vegetarian": params.vegetarian}
-    veganQuery = {"vegan": params.vegan}
-    nameQuery = {"cuisine_name": params.cuisine_name}
 
     request1 = request.app.mongodb["cuisines"].find(spicyQuery).to_list(length=100)
-    # request2 = request.app.mongodb["cuisines"].find(vegetarianQuery).to_list(length=100)
-    # request3 = request.app.mongodb["cuisines"].find(veganQuery).to_list(length=100)
-    # request4 = request.app.mongodb["cuisines"].find(nameQuery).to_list(length=100)
 
     spices = []
     vegetarians = []
     vegans = []
     cuisines = []
-    # for doc in await request4 in await request3 in await request2 in await request1:
+    cuisinesWithIngredients = []
+
     for doc in await request1:
         spices.append(doc)
 
     for spice in spices:
-        if spice['vegetarian'] == params.vegetarian:
+        if spice['vegetarian'] == params.vegetarian or params.vegetarian == "":
             vegetarians.append(spice)
 
     for vegetarian in vegetarians:
-        if vegetarian['vegan'] == params.vegan:
+        if vegetarian['vegan'] == params.vegan or params.vegan == "":
             vegans.append(vegetarian)
 
     for vegan in vegans:
-        if vegan['cuisine_name'] == params.cuisine_name or params.cuisine_name == "":
+        if cuisineNameMatch.findall(vegan['cuisine_name']):
             cuisines.append(vegan)
 
-    return cuisines
+    for cuisine in cuisines:
+        i = 0
+        if len(params.ingredients) == 1:
+            for j in range(len(cuisine['ingredients']) - 1):
+                if i > 0 and j > len(params.ingredients):
+                    break
+                if cuisine['ingredients'][j]['name'] == params.ingredients[i]:
+                    i += 1
+        if len(params.ingredients) > 1:
+            for k in range(len(params.ingredients)-1):
+                for j in range(len(cuisine['ingredients'])-1):
+                    if cuisine['ingredients'][j]['name'] == params.ingredients[k]:
+                        i += 1
+        if i > 0:
+            cuisinesWithIngredients.append(vegan)
+
+    return cuisinesWithIngredients
