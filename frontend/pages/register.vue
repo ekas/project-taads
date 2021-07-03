@@ -79,7 +79,7 @@ export default {
           this.$toast.success("Successfully Registered", {
             duration: 5000
           });
-          // this.$router.push("/login");
+          this.$router.push("/login");
         })
         .catch(error => {
           this.$toast.error(error, {

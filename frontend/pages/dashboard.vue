@@ -3,7 +3,7 @@
     <div class="bg">
       <div class="loginContainer">
         <h2 class="formHeading">My Dashboard</h2>
-        <b-form class="form">
+        <b-form class="form" v-if="isLoggedIn">
           <b-row>
             <b-col>
               <b-form-group
@@ -126,8 +126,10 @@
           </b-row>
           <div class="btnContainer">
             <b-button class="formBtn">Submit</b-button>
+            <b-button class="formBtn">Logout</b-button>
           </div>
         </b-form>
+        <p v-else>Please login to see your dashboard</p>
       </div>
     </div>
   </div>
@@ -137,7 +139,8 @@ export default {
   layout: "header",
   data() {
     return {
-      value: ["Germany", "France"]
+      value: ["Germany", "France"],
+      isLoggedIn: process.server ? "" : !!localStorage.getItem("authToken")
     };
   }
 };

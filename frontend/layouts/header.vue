@@ -2,10 +2,34 @@
   <div class="main">
     <nav>
       <b-container fluid class="header">
-        <NuxtLink to="/" class="headerItem active">Search</NuxtLink>
-        <NuxtLink to="/login" class="headerItem">Login</NuxtLink>
-        <NuxtLink to="/register" class="headerItem">Register</NuxtLink>
-        <NuxtLink to="/dashboard" class="headerItem">My Dashboard</NuxtLink>
+        <NuxtLink
+          to="/"
+          class="headerItem"
+          :class="$route.name === 'index' ? 'active' : ''"
+        >
+          Search
+        </NuxtLink>
+        <NuxtLink
+          to="/login"
+          class="headerItem"
+          :class="$route.name === 'login' ? 'active' : ''"
+        >
+          Login
+        </NuxtLink>
+        <NuxtLink
+          to="/register"
+          class="headerItem"
+          :class="$route.name === 'register' ? 'active' : ''"
+        >
+          Register
+        </NuxtLink>
+        <NuxtLink
+          to="/dashboard"
+          class="headerItem"
+          :class="$route.name === 'dashboard' ? 'active' : ''"
+        >
+          My Dashboard
+        </NuxtLink>
       </b-container>
     </nav>
     <img src="~/assets/logo.png" class="logo" />

@@ -3,16 +3,78 @@
     <div class="bg">
       <div class="loginContainer">
         <h2 class="formHeading">Login</h2>
-        <b-form-input placeholder="Email" class="formInput"></b-form-input>
-        <b-form-input placeholder="Password" class="formInput"></b-form-input>
-        <b-button class="formBtn">Login</b-button>
+        <b-form @submit="onSubmit">
+          <b-form-input
+            type="email"
+            placeholder="Email"
+            v-model="form.email"
+            class="formInput"
+            required
+          ></b-form-input>
+          <b-form-input
+            type="password"
+            placeholder="Password"
+            v-model="form.password"
+            class="formInput"
+            required
+          ></b-form-input>
+          <b-button class="formBtn" type="submit">Login</b-button>
+        </b-form>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 export default {
-  layout: "header"
+  layout: "header",
+  data() {
+    return {
+      form: {
+        email: "",
+        password: ""
+      },
+      formResponse: ""
+    };
+  },
+  methods: {
+    async onSubmit(event) {
+      event.preventDefault();
+
+      fetch(process.env.BACKEND_BASE_URL + "login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: this.form.email,
+          password: this.form.password
+        })
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(responseJson => {
+          this.formResponse = responseJson;
+          if (process.browser) {
+            localStorage.setItem("authToken", this.formResponse.token);
+          }
+          this.$toast.success("Successfully Logged In", {
+            duration: 5000
+          });
+          this.$router.push("/dashboard");
+        })
+        .catch(error => {
+          this.$toast.error(error, {
+            duration: 5000
+          });
+        });
+    }
+  },
+  fetchOnServer: false
 };
 </script>
 
