@@ -56,21 +56,36 @@ export default {
     async onSubmit(event) {
       event.preventDefault();
 
-      this.formResponse = await fetch(
-        process.env.BACKEND_BASE_URL + "register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: this.form.name,
-            email: this.form.email,
-            password: this.form.password
-          })
-        }
-      ).then(res => res.json());
-      this.$router.push("/login");
+      fetch(process.env.BACKEND_BASE_URL + "register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: this.form.name,
+          email: this.form.email,
+          password: this.form.password
+        })
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(responseJson => {
+          this.formResponse = responseJson;
+          this.$toast.success("Successfully Registered", {
+            duration: 5000
+          });
+          // this.$router.push("/login");
+        })
+        .catch(error => {
+          this.$toast.error(error, {
+            duration: 5000
+          });
+        });
     }
   },
   fetchOnServer: false

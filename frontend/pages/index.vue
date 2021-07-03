@@ -74,6 +74,7 @@
     <p v-if="$fetchState.pending">Fetching cuisines...</p>
     <p v-else-if="$fetchState.error">An error occurred :(</p>
     <div class="recipeContainer" v-else>
+      <p v-if="cuisines.length === 0">No Cuisines found</p>
       <div class="cardContainer" v-for="cuisine of cuisines" :key="cuisine._id">
         <img src="~/assets/Image1.png" width="100%" height="200px" />
         <div class="cardContent">
