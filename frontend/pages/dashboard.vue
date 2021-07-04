@@ -3,41 +3,44 @@
     <div class="bg">
       <div class="loginContainer">
         <h2 class="formHeading">My Dashboard</h2>
-        <b-form class="form" v-if="isLoggedIn">
+        <b-form class="form" v-if="isLoggedIn" @submit="onSubmit">
           <b-row>
             <b-col>
               <b-form-group
                 label="Country of Origin"
-                label-for="input-1"
                 description="Please mention which country you belong to."
               >
                 <b-form-input
-                  id="input-1"
-                  type="email"
+                  type="text"
+                  v-model="form.country_origin"
                   placeholder="Germany"
+                  trim
                   required
                 >
                 </b-form-input>
               </b-form-group>
               <b-form-group
                 label="Cuisine Name"
-                label-for="input-1"
                 description="Please mention name of your favorite cuisine."
               >
                 <b-form-input
-                  id="input-1"
-                  type="email"
+                  type="text"
+                  v-model="form.cuisine_name"
                   placeholder="Chicken Platter"
+                  trim
                   required
                 >
                 </b-form-input>
               </b-form-group>
               <b-form-group
                 label="Ingredients of your cuisine"
-                label-for="input-1"
                 description="Please mention the quantity as well as given in example."
               >
-                <b-form-tags no-outer-focus class="mb-2">
+                <b-form-tags
+                  no-outer-focus
+                  class="mb-2"
+                  v-model="form.ingredients"
+                >
                   <template
                     v-slot="{
                       tags,
@@ -92,26 +95,66 @@
               </b-form-group>
               <b-form-group
                 label="Origin of Cuisine"
-                label-for="input-2"
                 description="Please provide countries cuisine is originated from or famous in."
               >
-                <b-form-tags
-                  input-id="tags-basic"
-                  v-model="value"
-                ></b-form-tags>
+                <b-form-tags v-model="form.country_cuisine"></b-form-tags>
               </b-form-group>
               <b-form-group
                 label="Time to cook"
-                label-for="input-2"
                 description="Please provide time range in minutes."
               >
                 <b-form-input
-                  id="input-2"
-                  type="string"
+                  type="text"
+                  v-model="form.time_to_cook"
                   placeholder="20-30"
                   required
+                  trim
                 >
                 </b-form-input>
+              </b-form-group>
+              <b-form-checkbox
+                id="checkbox-1"
+                v-model="form.vegetarian"
+                name="checkbox-1"
+                value="true"
+                unchecked-value="false"
+              >
+                Vegetarian
+              </b-form-checkbox>
+              <b-form-checkbox
+                id="checkbox-2"
+                v-model="form.vegan"
+                name="checkbox-1"
+                value="true"
+                unchecked-value="false"
+              >
+                Vegan
+              </b-form-checkbox>
+              <b-form-group label="Spice Level" v-slot="{ ariaDescribedby }">
+                <b-form-radio
+                  v-model="form.spicy"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="1"
+                >
+                  1
+                </b-form-radio>
+                <b-form-radio
+                  v-model="form.spicy"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="2"
+                >
+                  2
+                </b-form-radio>
+                <b-form-radio
+                  v-model="form.spicy"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="3"
+                >
+                  3
+                </b-form-radio>
               </b-form-group>
             </b-col>
             <b-col>
@@ -125,7 +168,7 @@
             </b-col>
           </b-row>
           <div class="btnContainer">
-            <b-button class="formBtn">Submit</b-button>
+            <b-button class="formBtn" type="submit">Submit</b-button>
             <b-button class="formBtn">Logout</b-button>
           </div>
         </b-form>
@@ -139,10 +182,63 @@ export default {
   layout: "header",
   data() {
     return {
-      value: ["Germany", "France"],
+      form: {
+        country_origin: "",
+        cuisine_name: "",
+        ingredients: [],
+        time_to_cook: "20",
+        country_cuisine: ["Germany", "France"],
+        spicy: "1",
+        vegetarian: "false",
+        vegan: "false"
+      },
       isLoggedIn: process.server ? "" : !!localStorage.getItem("authToken")
     };
-  }
+  },
+  methods: {
+    async onSubmit(event) {
+      event.preventDefault();
+
+      fetch(process.env.BACKEND_BASE_URL + "users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        },
+
+        body: JSON.stringify({
+          avatar: "https://placekitten.com/300/300",
+          country_origin: this.form.country_origin,
+          cuisine_name: this.form.cuisine_name,
+          ingredients: this.form.ingredients,
+          country_cuisine: this.form.country_cuisine,
+          time_to_cook: this.form.time_to_cook,
+          spicy: this.form.spicy,
+          vegetarian: this.form.vegetarian,
+          vegan: this.form.vegan
+        })
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(responseJson => {
+          this.formResponse = responseJson;
+          this.$toast.success("Recipe Added", {
+            duration: 5000
+          });
+        })
+        .catch(error => {
+          this.$toast.error(error, {
+            duration: 5000
+          });
+        });
+    }
+  },
+  fetchOnServer: false
 };
 </script>
 
