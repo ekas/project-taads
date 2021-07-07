@@ -10,107 +10,166 @@
                 label="Country of Origin"
                 description="Please mention which country you belong to."
               >
-                <b-form-input
-                  type="text"
-                  v-model="form.country_origin"
-                  placeholder="Germany"
-                  trim
-                  required
-                >
-                </b-form-input>
+                <b-input-group>
+                  <b-form-input
+                    type="text"
+                    size="lg"
+                    v-model="form.country_origin"
+                    placeholder="Germany"
+                    trim
+                    required
+                  >
+                  </b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('country_origin')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
               </b-form-group>
               <b-form-group
                 label="Cuisine Name"
                 description="Please mention name of your favorite cuisine."
               >
-                <b-form-input
-                  type="text"
-                  v-model="form.cuisine_name"
-                  placeholder="Chicken Platter"
-                  trim
-                  required
-                >
-                </b-form-input>
+                <b-input-group>
+                  <b-form-input
+                    type="text"
+                    size="lg"
+                    v-model="form.cuisine_name"
+                    placeholder="Chicken Platter"
+                    trim
+                    required
+                  >
+                  </b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('cuisine_name')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
               </b-form-group>
               <b-form-group
                 label="Ingredients of your cuisine"
                 description="Please mention the quantity as well as given in example."
               >
-                <b-form-tags
-                  no-outer-focus
-                  class="mb-2"
-                  v-model="form.ingredients"
-                >
-                  <template
-                    v-slot="{
-                      tags,
-                      inputAttrs,
-                      inputHandlers,
-                      addTag,
-                      removeTag
-                    }"
-                  >
-                    <b-input-group aria-controls="my-custom-tags-list">
-                      <input
-                        v-bind="inputAttrs"
-                        v-on="inputHandlers"
-                        placeholder="Ex. 2x400g cans chopped tomatoes"
-                        class="form-control"
-                      />
-                      <b-input-group-append>
-                        <b-button @click="addTag()" variant="primary"
-                          >Add</b-button
-                        >
-                      </b-input-group-append>
-                    </b-input-group>
-                    <ul
-                      id="my-custom-tags-list"
-                      class="list-unstyled d-inline-flex flex-wrap mb-0"
-                      aria-live="polite"
-                      aria-atomic="false"
-                      aria-relevant="additions removals"
+                <b-input-group>
+                  <b-form-tags no-outer-focus v-model="form.ingredients">
+                    <template
+                      v-slot="{
+                        tags,
+                        inputAttrs,
+                        inputHandlers,
+                        addTag,
+                        removeTag
+                      }"
                     >
-                      <b-card
-                        v-for="tag in tags"
-                        :key="tag"
-                        :id="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
-                        tag="li"
-                        class="mt-1 mr-1"
-                        body-class="py-1 pr-2 text-nowrap"
+                      <b-input-group aria-controls="my-custom-tags-list">
+                        <input
+                          v-bind="inputAttrs"
+                          v-on="inputHandlers"
+                          placeholder="Ex. 2x400g cans chopped tomatoes"
+                          class="form-control"
+                        />
+                        <b-input-group-append>
+                          <b-button @click="addTag()" variant="primary"
+                            >Add</b-button
+                          >
+                        </b-input-group-append>
+                      </b-input-group>
+                      <ul
+                        id="my-custom-tags-list"
+                        class="list-unstyled d-inline-flex flex-wrap mb-0"
+                        aria-live="polite"
+                        aria-atomic="false"
+                        aria-relevant="additions removals"
                       >
-                        <strong>{{ tag }}</strong>
-                        <b-button
-                          @click="removeTag(tag)"
-                          variant="link"
-                          size="sm"
-                          :aria-controls="
-                            `my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`
-                          "
-                          >remove</b-button
+                        <b-card
+                          v-for="tag in tags"
+                          :key="tag"
+                          :id="`my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`"
+                          tag="li"
+                          class="mt-1 mr-1"
+                          body-class="py-1 pr-2 text-nowrap"
                         >
-                      </b-card>
-                    </ul>
-                  </template>
-                </b-form-tags>
+                          <strong>{{ tag }}</strong>
+                          <b-button
+                            @click="removeTag(tag)"
+                            variant="link"
+                            size="sm"
+                            :aria-controls="
+                              `my-custom-tags-tag_${tag.replace(/\s/g, '_')}_`
+                            "
+                            >remove</b-button
+                          >
+                        </b-card>
+                      </ul>
+                    </template>
+                  </b-form-tags>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('ingredients')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
               </b-form-group>
               <b-form-group
                 label="Origin of Cuisine"
                 description="Please provide countries cuisine is originated from or famous in."
               >
-                <b-form-tags v-model="form.country_cuisine"></b-form-tags>
+                <b-input-group>
+                  <b-form-tags v-model="form.country_cuisine"></b-form-tags>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('country_cuisine')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
               </b-form-group>
               <b-form-group
                 label="Time to cook"
                 description="Please provide time range in minutes."
               >
-                <b-form-input
-                  type="text"
-                  v-model="form.time_to_cook"
-                  placeholder="20-30"
-                  required
-                  trim
-                >
-                </b-form-input>
+                <b-input-group>
+                  <b-form-input
+                    type="text"
+                    size="lg"
+                    v-model="form.time_to_cook"
+                    placeholder="20-30"
+                    required
+                    trim
+                  >
+                  </b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('time_to_cook')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
               </b-form-group>
               <b-form-checkbox
                 id="checkbox-1"
@@ -196,6 +255,34 @@ export default {
     };
   },
   methods: {
+    recordAudio(state) {
+      const self = this;
+      // testa se o navegador suporta o reconhecimento de voz
+      if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+        // captura a voz
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        // inicia reconhecimento
+        recognition.lang = "en-US";
+        recognition.start();
+        // resultado do reconhecimento
+        recognition.addEventListener(
+          "result",
+          function(e) {
+            var result = e.results[0][0].transcript;
+            console.log(result);
+            if (state === "ingredients" || state === "country_cuisine") {
+              self.form[state].push(result);
+            } else {
+              self.form[state] = result;
+            }
+          },
+          false
+        );
+      } else {
+        alert("Not available");
+      }
+    },
     async onSubmit(event) {
       event.preventDefault();
 
@@ -283,6 +370,10 @@ export default {
 
 .formBtn {
   width: 200px;
+  background-color: var(--primary-color);
+}
+
+.speechBtn {
   background-color: var(--primary-color);
 }
 
