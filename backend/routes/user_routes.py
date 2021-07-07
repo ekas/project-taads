@@ -1,3 +1,6 @@
+import string
+import random
+
 from fastapi import APIRouter, Body, HTTPException, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -5,10 +8,11 @@ from typing import List
 
 from auth.config import AuthHandler
 from schema.users import UserModel, UpdateUserModel, LoginUserModel
+from schema.news import NewsModel
+from logic.news_logic import add_news
 
 from ingredient_parser import parse_ingredient
 
-import time
 
 user_router = APIRouter()
 
@@ -84,6 +88,29 @@ async def update_user(
                     "cuisine_type": updated_user["cuisine_type"],
                 }
             )
+
+            # Add news record for cuisine
+            news = NewsModel
+            news.news_type = "cuisine"
+            cuisine_countries = ""
+            if len(updated_user["country_cuisine"]) == 1:
+                cuisine_countries += updated_user["country_cuisine"][0]
+            elif len(updated_user["country_cuisine"]) > 1:
+                for i in range(len(updated_user["country_cuisine"])):
+                    if i == len(updated_user["country_cuisine"]) - 1:
+                        cuisine_countries += updated_user["country_cuisine"][i]
+                        break
+                    cuisine_countries += updated_user["country_cuisine"][i] + ", "
+
+            news.title = "New Cuisine " + updated_user["cuisine_name"] + " Added from " + cuisine_countries
+
+            # Generate new id for cuisine news(only last 8 characters are modified)
+            characters = string.ascii_letters + string.digits
+            new_id = ''.join(random.choice(characters) for i in range(12))
+            news_id = id[0:24] + new_id
+
+            await add_news(request, news, news_id)
+
             return updated_user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")

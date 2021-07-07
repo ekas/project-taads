@@ -1,9 +1,15 @@
+import string
+import random
+
 from fastapi import APIRouter, Body, HTTPException, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 from auth.config import AuthHandler
 from schema.users import UserModel, UpdateUserModel, LoginUserModel
+from schema.news import NewsModel
+from logic.news_logic import add_news
+
 
 auth_router = APIRouter()
 
@@ -16,7 +22,7 @@ async def register(request: Request, user: UserModel = Body(...)):
     existing_user = await request.app.mongodb["users"].find_one(
         {"email": user['email']}
     )
-    if (existing_user is not None):
+    if existing_user is not None:
         raise HTTPException(
             status_code=401, detail=f"User {user['email']} already exists")
 
@@ -26,6 +32,18 @@ async def register(request: Request, user: UserModel = Body(...)):
     created_user = await request.app.mongodb["users"].find_one(
         {"_id": new_user.inserted_id}
     )
+
+    # Add user news record
+    news = NewsModel
+    news.news_type = "user"
+    news.title = "New user " + user["name"] + " is with us now \u2764"
+
+    # Generate new id for cuisine news(only last 8 characters are modified)
+    characters = string.ascii_letters + string.digits
+    new_id = ''.join(random.choice(characters) for i in range(12))
+    news_id = id[0:24] + new_id
+
+    await add_news(request, news, news_id)
 
     return created_user
 

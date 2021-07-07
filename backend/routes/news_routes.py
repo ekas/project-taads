@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, HTTPException, Request, status, Depends
+from fastapi import APIRouter, Body, HTTPException, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from typing import List
@@ -36,3 +36,20 @@ async def delete_news(request: Request, id=str):
         return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
 
     raise HTTPException(status_code=404, detail=f"News {id} not found")
+
+
+@news_router.get("/last_news", status_code=200, response_description="List Last News", response_model=List[NewsModel])
+async def list_last_news(request: Request):
+    news = []
+
+    # direct sort from the db could have been useful if we had proper ids(i.e 1,2,3...)
+    # for doc in await request.app.mongodb["news"].find().sort([("_id", pymongo.DESCENDING)]).limit(5).to_list(length=5):
+
+    for doc in await request.app.mongodb["news"].find().to_list(length=100):
+        news.append(doc)
+
+    # Get last N news from the list and revert it to get latest first
+    news = news[-5:]
+    news.reverse()
+
+    return news

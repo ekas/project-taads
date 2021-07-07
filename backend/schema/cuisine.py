@@ -33,6 +33,8 @@ class CuisineModel(BaseModel):
     vegetarian: bool = Field(...)
     vegan: bool = Field(...)
     time_to_cook: str = Field(...)
+    cuisine_image: str = Field(...)
+    cuisine_type: str = Field(...)
 
     class Config:
         allow_population_by_field_name = True

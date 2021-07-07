@@ -10,14 +10,6 @@ from schema.cuisine import CuisineModel
 cuisines_router = APIRouter()
 
 
-class Params(BaseModel):
-    spicy: str
-    vegetarian: bool
-    vegan: bool
-    cuisine_name: str
-    ingredients: List[str]
-
-
 @cuisines_router.get("/", status_code=200, response_description="List All Cuisines",)
 async def list_cuisines(request: Request):
     cuisines = []
@@ -39,13 +31,14 @@ async def delete_cuisine(request: Request, id=str):
 
 
 @cuisines_router.get("/search", status_code=200, response_description="Search cuisines")
-async def search_cuisine(request: Request, params: Params = Body(...)):
+async def search_cuisine(request: Request, params: CuisineModel = Body(...)):
 
-    cuisineNameMatch = re.compile(params.cuisine_name, flags=re.IGNORECASE)
-
-    spicyQuery = {"spicy": params.spicy}
-
-    request1 = request.app.mongodb["cuisines"].find(spicyQuery).to_list(length=100)
+    spicy = int(params.spicy)
+    if spicy == 0:
+        request1 = request.app.mongodb["cuisines"].find().to_list(length=100)
+    elif 0 < spicy <= 3:
+        spicyQuery = {"spicy": params.spicy}
+        request1 = request.app.mongodb["cuisines"].find(spicyQuery).to_list(length=100)
 
     spices = []
     vegetarians = []
@@ -56,20 +49,30 @@ async def search_cuisine(request: Request, params: Params = Body(...)):
     for doc in await request1:
         spices.append(doc)
 
-    for spice in spices:
-        if spice['vegetarian'] == params.vegetarian or params.vegetarian == "":
-            vegetarians.append(spice)
+    if not params.vegetarian:
+        vegetarians = spices
+    elif params.vegetarian:
+        for spice in spices:
+            if spice['vegetarian'] == params.vegetarian:
+                vegetarians.append(spice)
 
-    for vegetarian in vegetarians:
-        if vegetarian['vegan'] == params.vegan or params.vegan == "":
-            vegans.append(vegetarian)
+    if not params.vegan:
+        vegans = vegetarians
+    elif params.vegan:
+        for vegetarian in vegetarians:
+            if vegetarian['vegan'] == params.vegan:
+                vegans.append(vegetarian)
 
+    cuisineNameMatch = re.compile(params.cuisine_name, flags=re.IGNORECASE)
     for vegan in vegans:
         if cuisineNameMatch.findall(vegan['cuisine_name']):
             cuisines.append(vegan)
 
     for cuisine in cuisines:
         i = 0
+        if len(params.ingredients) == 0:
+            cuisinesWithIngredients = cuisines
+            break
         if len(params.ingredients) == 1:
             for j in range(len(cuisine['ingredients']) - 1):
                 if i > 0 and j > len(params.ingredients):
