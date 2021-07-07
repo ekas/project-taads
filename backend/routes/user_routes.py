@@ -15,7 +15,13 @@ user_router = APIRouter()
 auth_handler = AuthHandler()
 
 
-@user_router.get("/list", status_code=200, response_description="List All Users", response_model=List[UserModel], response_model_exclude={'password'})
+@user_router.get(
+    "/list",
+    status_code=200,
+    response_description="List All Users",
+    response_model=List[UserModel],
+    response_model_exclude={"password"},
+)
 async def list_users(request: Request, id=Depends(auth_handler.auth_wrapper)):
     users = []
     for doc in await request.app.mongodb["users"].find().to_list(length=100):
@@ -23,7 +29,13 @@ async def list_users(request: Request, id=Depends(auth_handler.auth_wrapper)):
     return users
 
 
-@user_router.get("/", status_code=200, response_description="Get a single user", response_model=UserModel, response_model_exclude={'password'})
+@user_router.get(
+    "/",
+    status_code=200,
+    response_description="Get a single user",
+    response_model=UserModel,
+    response_model_exclude={"password"},
+)
 async def show_user(request: Request, id=Depends(auth_handler.auth_wrapper)):
     user = await request.app.mongodb["users"].find_one({"_id": id})
     if user is not None:
@@ -32,8 +44,18 @@ async def show_user(request: Request, id=Depends(auth_handler.auth_wrapper)):
     raise HTTPException(status_code=404, detail=f"User {id} not found")
 
 
-@user_router.put("/", status_code=200, response_description="Update User with Cuisine Data", response_model=UpdateUserModel, response_model_exclude={'password'})
-async def update_user(request: Request, user: UpdateUserModel = Body(...), id=Depends(auth_handler.auth_wrapper)):
+@user_router.put(
+    "/",
+    status_code=200,
+    response_description="Update User with Cuisine Data",
+    response_model=UpdateUserModel,
+    response_model_exclude={"password"},
+)
+async def update_user(
+    request: Request,
+    user: UpdateUserModel = Body(...),
+    id=Depends(auth_handler.auth_wrapper),
+):
     user = {k: v for k, v in user.dict().items() if v is not None}
 
     if len(user) >= 1:
@@ -44,20 +66,24 @@ async def update_user(request: Request, user: UpdateUserModel = Body(...), id=De
         updated_user = await request.app.mongodb["users"].find_one({"_id": id})
         if updated_user is not None:
             extracted_ingredients = []
-            for ingredient in updated_user['ingredients']:
+            for ingredient in updated_user["ingredients"]:
                 extracted_ingredients.append(parse_ingredient(ingredient))
 
             extracted_ingredients = jsonable_encoder(extracted_ingredients)
-            new_cuisine = await request.app.mongodb["cuisines"].insert_one({
-                "_id": id,
-                "cuisine_name": updated_user['cuisine_name'],
-                "country_cuisine": updated_user['country_cuisine'],
-                "ingredients": jsonable_encoder(extracted_ingredients),
-                "spicy": updated_user['spicy'],
-                "vegetarian": updated_user['vegetarian'],
-                "vegan": updated_user['vegan'],
-                "time_to_cook": updated_user['time_to_cook'],
-            })
+            new_cuisine = await request.app.mongodb["cuisines"].insert_one(
+                {
+                    "_id": id,
+                    "cuisine_name": updated_user["cuisine_name"],
+                    "country_cuisine": updated_user["country_cuisine"],
+                    "ingredients": jsonable_encoder(extracted_ingredients),
+                    "spicy": updated_user["spicy"],
+                    "vegetarian": updated_user["vegetarian"],
+                    "vegan": updated_user["vegan"],
+                    "time_to_cook": updated_user["time_to_cook"],
+                    "cuisine_image": updated_user["cuisine_image"],
+                    "cuisine_type": updated_user["cuisine_type"],
+                }
+            )
             return updated_user
 
     raise HTTPException(status_code=404, detail=f"User {id} not found")

@@ -49,6 +49,8 @@ class UpdateUserModel(BaseModel):
     vegetarian: bool = Field(...)
     vegan: bool = Field(...)
     time_to_cook: str = Field(...)
+    cuisine_image: str = Field(...)
+    cuisine_type: str = Field(...)
 
     class Config:
         schema_extra = {
@@ -56,11 +58,23 @@ class UpdateUserModel(BaseModel):
                 "avatar": "https://placekitten.com/300/300",
                 "country_origin": "Germany",
                 "cuisine_name": "Chicken Platter",
-                "ingredients": ["1 tbsp olive oil", "2 rashers smoked streaky bacon", "1 onion , finely chopped", "1 celery stick, finely chopped", "1 medium carrot , grated", "2 garlic cloves , finely chopped", "500g beef mince", "1 tbsp tomato purée", "2 x 400g cans chopped tomatoes"],
+                "ingredients": [
+                    "1 tbsp olive oil",
+                    "2 rashers smoked streaky bacon",
+                    "1 onion , finely chopped",
+                    "1 celery stick, finely chopped",
+                    "1 medium carrot , grated",
+                    "2 garlic cloves , finely chopped",
+                    "500g beef mince",
+                    "1 tbsp tomato purée",
+                    "2 x 400g cans chopped tomatoes",
+                ],
                 "country_cuisine": ["Germany", "France"],
                 "spicy": "0",
                 "vegetarian": "true",
                 "vegan": "false",
                 "time_to_cook": "20-30",
+                "cuisine_image": "https://placekitten.com/300/300",
+                "cuisine_type": "Dinner",
             }
         }
