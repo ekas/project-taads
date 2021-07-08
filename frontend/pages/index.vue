@@ -46,37 +46,45 @@
       </div>
     </div>
     <div class="filterCheckBoxContainer">
-      <span class="filterCheckBoxActive">
-        <span>All</span>
-        <span> (170)</span>
+      <span class="filterCheckBoxWrap">
+        <span
+          :class="
+            selectedFilter === 'all' ? 'filterCheckBoxActive' : 'filterCheckBox'
+          "
+          @click="changeFilter('all')"
+        >
+          <span>All</span>
+          <span> ({{ cuisines.length }})</span>
+        </span>
       </span>
-      <span class="filterCheckBox">
-        <span>Break Fast</span>
-        <span> (23)</span>
-      </span>
-      <span class="filterCheckBox">
-        <span>Lunch</span>
-        <span> (41)</span>
-      </span>
-      <span class="filterCheckBox">
-        <span>Drinks</span>
-        <span> (53)</span>
-      </span>
-      <span class="filterCheckBox">
-        <span>Desserts</span>
-        <span> (33)</span>
-      </span>
-      <span class="filterCheckBox">
-        <span>Fastfood</span>
-        <span> (20)</span>
+      <span
+        class="filterCheckBoxWrap"
+        v-for="filter of filters"
+        :key="filter.name"
+      >
+        <span
+          :class="
+            selectedFilter === filter.name
+              ? 'filterCheckBoxActive'
+              : 'filterCheckBox'
+          "
+          @click="changeFilter(filter.name)"
+        >
+          <span>{{ filter.name }}</span>
+          <span> ({{ filter.length }})</span>
+        </span>
       </span>
     </div>
     <p v-if="$fetchState.pending">Fetching cuisines...</p>
     <p v-else-if="$fetchState.error">An error occurred :(</p>
     <div class="recipeContainer" v-else>
       <p v-if="cuisines.length === 0">No Cuisines found</p>
-      <div class="cardContainer" v-for="cuisine of cuisines" :key="cuisine._id">
-        <img src="~/assets/Image1.png" width="100%" height="200px" />
+      <div
+        class="cardContainer"
+        v-for="cuisine of filteredCuisines"
+        :key="cuisine._id"
+      >
+        <img :src="cuisine.cuisine_image" width="100%" height="200px" />
         <div class="cardContent">
           <div class="cardTitleRow">
             <span class="cardTitle">{{ cuisine.cuisine_name }}</span>
@@ -117,12 +125,57 @@
               width="15"
               height="15"
             />
+            <img
+              v-if="cuisine.vegetarian === true"
+              src="~/assets/vegetarian.png"
+              class="recipeVegan"
+              width="30"
+              height="30"
+              title="Vegetarian"
+            />
+            <span></span>
+            <img
+              v-if="cuisine.spicy === true"
+              src="~/assets/vegan.jpeg"
+              class="recipeStar"
+              width="30"
+              height="30"
+              title="Vegan"
+            />
+            <img
+              v-if="
+                cuisine.spicy === '1' ||
+                  cuisine.spicy === '2' ||
+                  cuisine.spicy === '3'
+              "
+              src="~/assets/spicy.jpeg"
+              class="recipeStar"
+              width="30"
+              height="30"
+              title="Spicy-1"
+            />
+            <img
+              v-if="cuisine.spicy === '3' || cuisine.spicy === '2'"
+              src="~/assets/spicy.jpeg"
+              class="recipeStar"
+              width="30"
+              height="30"
+              title="Spicy-2"
+            />
+            <img
+              v-if="cuisine.spicy === '3'"
+              src="~/assets/spicy.jpeg"
+              class="recipeStar"
+              width="30"
+              height="30"
+              title="Spicy-3"
+            />
           </div>
           <div class="cardTitleRow">
             <div class="recipeTagsContainer">
               <span
                 class="recipeTag"
-                v-for="country of cuisines.country_cuisine"
+                v-for="country of cuisine.country_cuisine"
                 :key="cuisine._id + country"
               >
                 <span>{{ country }}</span>
@@ -143,17 +196,50 @@ export default {
   data() {
     return {
       cuisines: [],
-      news: []
+      filteredCuisines: [],
+      news: [],
+      filters: [],
+      selectedFilter: "all"
     };
   },
   async fetch() {
     this.cuisines = await fetch(
       process.env.BACKEND_BASE_URL + "cuisines"
     ).then(res => res.json());
+    this.filters = this.getFilters();
+    this.filteredCuisines = this.cuisines;
 
     this.news = await fetch(process.env.BACKEND_BASE_URL + "news").then(res =>
       res.json()
     );
+  },
+  methods: {
+    changeFilter: function(name) {
+      this.selectedFilter = name;
+      if (name == "all") {
+        this.filteredCuisines = this.cuisines;
+      } else {
+        this.filteredCuisines = this.cuisines.filter(
+          cuisine => cuisine.cuisine_type === name
+        );
+      }
+    },
+    getFilters: function() {
+      let filters = [];
+      this.cuisines.map(cuisine => {
+        debugger;
+        let index = filters.findIndex(
+          element => element.name === cuisine.cuisine_type
+        );
+        index === -1
+          ? filters.push({
+              name: cuisine.cuisine_type,
+              length: 1
+            })
+          : (filters[index].length = filters[index].length + 1);
+      });
+      return filters;
+    }
   },
   fetchOnServer: false
 };
@@ -274,8 +360,13 @@ export default {
 }
 
 .filterCheckBoxContainer {
-  margin: 60px 0 30px;
+  margin: 20px 0 30px;
   display: flex;
+  flex-flow: row wrap;
+}
+
+.filterCheckBoxWrap {
+  margin-top: 20px;
 }
 
 .filterCheckBox {
@@ -285,6 +376,11 @@ export default {
   border-radius: 50px;
   color: var(--secondary-color);
   background-color: var(--bg-grey);
+}
+
+.filterCheckBox:hover {
+  color: var(--white-color);
+  background-color: var(--primary-color);
 }
 
 .filterCheckBoxActive {
@@ -333,7 +429,7 @@ export default {
 }
 
 .recipeStars {
-  margin-bottom: 20px;
+  margin: 10px 0 20px;
 }
 
 .recipeStar {
@@ -345,6 +441,10 @@ export default {
   opacity: 0.2;
 }
 
+.recipeVegan {
+  margin-left: 10px;
+}
+
 .recipeTagsContainer {
   display: flex;
 }
@@ -352,7 +452,7 @@ export default {
 .recipeTag {
   font-size: 12px;
   cursor: pointer;
-  padding: 5px 25px;
+  padding: 5px 10px;
   margin: 0 5px 0 0;
   border-radius: 50px;
   color: var(--secondary-color);

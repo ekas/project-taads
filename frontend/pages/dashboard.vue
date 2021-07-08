@@ -171,6 +171,46 @@
                   </b-input-group-append>
                 </b-input-group>
               </b-form-group>
+              <b-form-group
+                label="Cuisine Image"
+                description="Please provide cuisine image url."
+              >
+                <b-form-input
+                  type="text"
+                  size="lg"
+                  v-model="form.cuisine_image"
+                  placeholder="https://placekitten.com/300/300"
+                  required
+                  trim
+                >
+                </b-form-input>
+              </b-form-group>
+              <b-form-group
+                label="Cuisine Type"
+                description="Please provide cuisine type."
+              >
+                <b-input-group>
+                  <b-form-input
+                    type="text"
+                    size="lg"
+                    v-model="form.cuisine_type"
+                    placeholder="Lunch"
+                    required
+                    trim
+                  >
+                  </b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      size="sm"
+                      text="Button"
+                      class="speechBtn"
+                      @click="recordAudio('cuisine_type')"
+                    >
+                      <img src="~/assets/mic.png" width="30px" />
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
               <b-form-checkbox
                 id="checkbox-1"
                 v-model="form.vegetarian"
@@ -249,7 +289,9 @@ export default {
         country_cuisine: ["Germany", "France"],
         spicy: "1",
         vegetarian: "false",
-        vegan: "false"
+        vegan: "false",
+        cuisine_image: "",
+        cuisine_type: ""
       },
       isLoggedIn: process.server ? "" : !!localStorage.getItem("authToken")
     };
@@ -270,7 +312,6 @@ export default {
           "result",
           function(e) {
             var result = e.results[0][0].transcript;
-            console.log(result);
             if (state === "ingredients" || state === "country_cuisine") {
               self.form[state].push(result);
             } else {
@@ -302,7 +343,9 @@ export default {
           time_to_cook: this.form.time_to_cook,
           spicy: this.form.spicy,
           vegetarian: this.form.vegetarian,
-          vegan: this.form.vegan
+          vegan: this.form.vegan,
+          cuisine_image: this.form.cuisine_image,
+          cuisine_type: this.form.cuisine_type
         })
       })
         .then(response => {

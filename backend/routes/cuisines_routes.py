@@ -10,13 +10,16 @@ from schema.cuisine import CuisineModel
 cuisines_router = APIRouter()
 
 
-@cuisines_router.get("/", status_code=200, response_description="List All Cuisines",)
+@cuisines_router.get(
+    "/",
+    status_code=200,
+    response_description="List All Cuisines",
+)
 async def list_cuisines(request: Request):
     cuisines = []
     for doc in await request.app.mongodb["cuisines"].find().to_list(length=100):
         cuisines.append(doc)
 
-    print(cuisines)
     return cuisines
 
 
@@ -53,19 +56,19 @@ async def search_cuisine(request: Request, params: CuisineModel = Body(...)):
         vegetarians = spices
     elif params.vegetarian:
         for spice in spices:
-            if spice['vegetarian'] == params.vegetarian:
+            if spice["vegetarian"] == params.vegetarian:
                 vegetarians.append(spice)
 
     if not params.vegan:
         vegans = vegetarians
     elif params.vegan:
         for vegetarian in vegetarians:
-            if vegetarian['vegan'] == params.vegan:
+            if vegetarian["vegan"] == params.vegan:
                 vegans.append(vegetarian)
 
     cuisineNameMatch = re.compile(params.cuisine_name, flags=re.IGNORECASE)
     for vegan in vegans:
-        if cuisineNameMatch.findall(vegan['cuisine_name']):
+        if cuisineNameMatch.findall(vegan["cuisine_name"]):
             cuisines.append(vegan)
 
     for cuisine in cuisines:
@@ -74,15 +77,15 @@ async def search_cuisine(request: Request, params: CuisineModel = Body(...)):
             cuisinesWithIngredients = cuisines
             break
         if len(params.ingredients) == 1:
-            for j in range(len(cuisine['ingredients']) - 1):
+            for j in range(len(cuisine["ingredients"]) - 1):
                 if i > 0 and j > len(params.ingredients):
                     break
-                if cuisine['ingredients'][j]['name'] == params.ingredients[i]:
+                if cuisine["ingredients"][j]["name"] == params.ingredients[i]:
                     i += 1
         if len(params.ingredients) > 1:
-            for k in range(len(params.ingredients)-1):
-                for j in range(len(cuisine['ingredients'])-1):
-                    if cuisine['ingredients'][j]['name'] == params.ingredients[k]:
+            for k in range(len(params.ingredients) - 1):
+                for j in range(len(cuisine["ingredients"]) - 1):
+                    if cuisine["ingredients"][j]["name"] == params.ingredients[k]:
                         i += 1
         if i > 0:
             cuisinesWithIngredients.append(vegan)
