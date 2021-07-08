@@ -81,6 +81,7 @@
       <p v-if="cuisines.length === 0">No Cuisines found</p>
       <div
         class="cardContainer"
+        @click="showModal(cuisine)"
         v-for="cuisine of filteredCuisines"
         :key="cuisine._id"
       >
@@ -188,6 +189,21 @@
         </div>
       </div>
     </div>
+    <b-modal id="cuisine-modal" :title="modalData.cuisine_name" size="lg">
+      <div class="cardTitleRowModal">
+        <img :src="modalData.cuisine_image" />
+        <h3>Ingredients</h3>
+        <div class="recipeTagsContainerModal">
+          <span
+            class="recipeTag"
+            v-for="(ingredient, index) of modalData.ingredients"
+            :key="index"
+          >
+            <span>{{ ingredient.original_string }}</span>
+          </span>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script lang="ts">
@@ -199,7 +215,12 @@ export default {
       filteredCuisines: [],
       news: [],
       filters: [],
-      selectedFilter: "all"
+      selectedFilter: "all",
+      modalData: {
+        cuisine_name: "",
+        ingredients: [],
+        cuisine_image: ""
+      }
     };
   },
   async fetch() {
@@ -224,10 +245,13 @@ export default {
         );
       }
     },
+    showModal: function(data) {
+      this.modalData = data;
+      this.$bvModal.show("cuisine-modal");
+    },
     getFilters: function() {
       let filters = [];
       this.cuisines.map(cuisine => {
-        debugger;
         let index = filters.findIndex(
           element => element.name === cuisine.cuisine_type
         );
@@ -401,6 +425,7 @@ export default {
 }
 
 .cardContainer {
+  cursor: pointer;
   width: 32%;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
@@ -416,6 +441,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.cardTitleRowModal {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 .cardTitle {
@@ -447,6 +480,13 @@ export default {
 
 .recipeTagsContainer {
   display: flex;
+}
+
+.recipeTagsContainerModal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .recipeTag {
