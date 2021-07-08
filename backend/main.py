@@ -15,8 +15,10 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "https://project-taads-266ec.ondigitalocean.app/",
+    "https://taads.vercel.app/",
     "127.0.0.1",
-    "localhost"
+    "localhost",
 ]
 
 app.add_middleware(
