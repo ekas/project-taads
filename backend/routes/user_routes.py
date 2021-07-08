@@ -102,11 +102,16 @@ async def update_user(
                         break
                     cuisine_countries += updated_user["country_cuisine"][i] + ", "
 
-            news.title = "New Cuisine " + updated_user["cuisine_name"] + " Added from " + cuisine_countries
+            news.title = (
+                "New Cuisine "
+                + updated_user["cuisine_name"]
+                + " Added from "
+                + cuisine_countries
+            )
 
             # Generate new id for cuisine news(only last 8 characters are modified)
             characters = string.ascii_letters + string.digits
-            new_id = ''.join(random.choice(characters) for i in range(12))
+            new_id = "".join(random.choice(characters) for i in range(12))
             news_id = id[0:24] + new_id
 
             await add_news(request, news, news_id)
