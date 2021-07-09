@@ -571,7 +571,6 @@ export default {
   display: flex;
   margin-top: 50px;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 100%;
 }
 
@@ -581,6 +580,7 @@ export default {
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
   overflow: hidden;
+  margin: 0 8px;
 }
 
 .cardContent {
