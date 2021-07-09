@@ -41,10 +41,12 @@
             class="searchIcon"
             width="20px"
             height="20px"
+            @click="showFilterPanel()"
           />
         </div>
       </div>
     </div>
+    <div class="filterPanel" v-if="isFilterPanelVisible">ekas</div>
     <div class="filterCheckBoxContainer">
       <span class="filterCheckBoxWrap">
         <span
@@ -216,6 +218,7 @@ export default {
       news: [],
       filters: [],
       selectedFilter: "all",
+      isFilterPanelVisible: false,
       modalData: {
         cuisine_name: "",
         ingredients: [],
@@ -235,6 +238,9 @@ export default {
     );
   },
   methods: {
+    showFilterPanel: function() {
+      this.isFilterPanelVisible = !this.isFilterPanelVisible;
+    },
     changeFilter: function(name) {
       this.selectedFilter = name;
       if (name == "all") {
@@ -263,7 +269,8 @@ export default {
           : (filters[index].length = filters[index].length + 1);
       });
       return filters;
-    }
+    },
+    searchCuisines: function() {}
   },
   fetchOnServer: false
 };
@@ -506,5 +513,15 @@ export default {
 .recipeTime span {
   background-color: var(--secondary-color);
   border-radius: 50%;
+}
+
+.filterPanel {
+  width: 100%;
+  height: 200px;
+  margin-top: 20px;
+  padding: 20px 20px;
+  border-radius: 20px;
+  transition: 0.3s height ease-in;
+  background-color: var(--bg-grey);
 }
 </style>
