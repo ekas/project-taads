@@ -79,17 +79,19 @@ async def search_cuisine(request: Request, params: CuisineSearchModel = Body(...
             cuisinesWithIngredients = cuisines
             break
         if len(params.ingredients) == 1:
-            for j in range(len(cuisine["ingredients"]) - 1):
+            for j in range(len(cuisine["ingredients"])):
                 if i > 0 and j > len(params.ingredients):
                     break
-                if cuisine["ingredients"][j]["name"] == params.ingredients[i]:
+                if re.compile(params.ingredients[i], flags=re.IGNORECASE).\
+                        findall((cuisine["ingredients"][j]["name"]).lower()):
                     i += 1
         if len(params.ingredients) > 1:
-            for k in range(len(params.ingredients) - 1):
-                for j in range(len(cuisine["ingredients"]) - 1):
-                    if cuisine["ingredients"][j]["name"] == params.ingredients[k]:
+            for k in range(len(params.ingredients)):
+                for j in range(len(cuisine["ingredients"])):
+                    if re.compile(params.ingredients[k], flags=re.IGNORECASE).\
+                            findall((cuisine["ingredients"][j]["name"]).lower()):
                         i += 1
         if i > 0:
-            cuisinesWithIngredients.append(vegan)
+            cuisinesWithIngredients.append(cuisine)
 
     return cuisinesWithIngredients
