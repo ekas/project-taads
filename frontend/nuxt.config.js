@@ -59,5 +59,18 @@ export default {
   build: {},
   env: {
     BACKEND_BASE_URL: "https://project-taads-266ec.ondigitalocean.app/"
+  },
+  typescript: {
+    typeCheck: false, // disable ForkTsCheckerWebpackPlugin type checking
+    loaders: {
+      loaders: {
+        ts: {
+          silent: true
+        },
+        tsx: {
+          silent: true
+        }
+      }
+    }
   }
 };
