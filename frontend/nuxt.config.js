@@ -58,7 +58,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   env: {
-    BACKEND_BASE_URL: "https://project-taads-266ec.ondigitalocean.app/"
+    BACKEND_BASE_URL: "http://localhost:4000/"
   },
   typescript: {
     typeCheck: false, // disable ForkTsCheckerWebpackPlugin type checking

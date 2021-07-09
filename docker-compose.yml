@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: backend/
+    image: ekas/taads-back
+    ports:
+      - "4000:4000"
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: frontend/
+    image: ekas/taads-front
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"

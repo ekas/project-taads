@@ -1,5 +1,5 @@
 FROM tiangolo/uvicorn-gunicorn:python3.8
-COPY backend/ .
+COPY . .
 RUN python3 -m venv /opt/venv
 RUN . /opt/venv/bin/activate
 RUN pip3 install -r requirements.txt
