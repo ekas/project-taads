@@ -80,7 +80,7 @@ async def search_cuisine(request: Request, params: CuisineSearchModel = Body(...
             break
         if len(params.ingredients) == 1:
             for j in range(len(cuisine["ingredients"])):
-                if i > 0 and j > len(params.ingredients):
+                if i > 0:
                     break
                 if re.compile(params.ingredients[i], flags=re.IGNORECASE).\
                         findall((cuisine["ingredients"][j]["name"]).lower()):
