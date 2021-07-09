@@ -14,6 +14,7 @@ from config import settings
 app = FastAPI()
 
 origins = [
+    "http://147.182.177.183:3000",
     "http://localhost:3000",
     "https://project-taads-266ec.ondigitalocean.app/",
     "https://taads.vercel.app/",
