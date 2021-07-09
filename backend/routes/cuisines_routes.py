@@ -5,7 +5,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 import re
 
-from schema.cuisine import CuisineModel
+from schema.cuisine import CuisineModel, CuisineSearchModel
 
 cuisines_router = APIRouter()
 
@@ -33,8 +33,10 @@ async def delete_cuisine(request: Request, id=str):
     raise HTTPException(status_code=404, detail=f"Cuisine {id} not found")
 
 
-@cuisines_router.get("/search", status_code=200, response_description="Search cuisines")
-async def search_cuisine(request: Request, params: CuisineModel = Body(...)):
+@cuisines_router.post(
+    "/search", status_code=200, response_description="Search cuisines"
+)
+async def search_cuisine(request: Request, params: CuisineSearchModel = Body(...)):
 
     spicy = int(params.spicy)
     if spicy == 0:

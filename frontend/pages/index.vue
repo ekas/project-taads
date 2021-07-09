@@ -26,27 +26,83 @@
     <div class="searchBar">
       <h3 class="ourMealsHeading">Our Meals</h3>
       <div class="filterContainer">
-        <div class="searchInputContainer">
-          <input type="text" class="searchInput" placeholder="Search by name" />
-          <img
-            src="~/assets/search.svg"
-            class="searchIcon"
-            width="20px"
-            height="20px"
-          />
-        </div>
-        <div class="filter">
+        <div class="filter" @click="showFilterPanel()">
           <img
             src="~/assets/settings.svg"
             class="searchIcon"
             width="20px"
             height="20px"
-            @click="showFilterPanel()"
           />
         </div>
       </div>
     </div>
-    <div class="filterPanel" v-if="isFilterPanelVisible">ekas</div>
+    <div class="filterPanel" v-if="isFilterPanelVisible">
+      <b-row class="filterPanelRow">
+        <b-col cols="2">
+          <span class="filterFormInput">Spicy</span>
+          <b-form-radio-group
+            id="radio-group-2"
+            v-model="filterForm.spicy"
+            name="radio-sub-component"
+          >
+            <b-form-radio value="1">1</b-form-radio>
+            <b-form-radio value="2">2</b-form-radio>
+            <b-form-radio value="3">3</b-form-radio>
+          </b-form-radio-group>
+        </b-col>
+        <b-col cols="1">
+          <b-form-checkbox
+            class="filterFormInput"
+            id="checkbox-1"
+            v-model="filterForm.vegan"
+            value="true"
+            unchecked-value="false"
+          >
+            Vegan
+          </b-form-checkbox>
+        </b-col>
+        <b-col cols="1">
+          <b-form-checkbox
+            class="filterFormInput"
+            id="checkbox-2"
+            v-model="filterForm.vegetarian"
+            value="true"
+            unchecked-value="false"
+          >
+            Vegetarian
+          </b-form-checkbox>
+        </b-col>
+        <b-col cols="3">
+          <b-form-input
+            type="text"
+            v-model="filterForm.cuisine_name"
+            placeholder="Search by cuisine Name"
+            trim
+            required
+          >
+          </b-form-input>
+        </b-col>
+
+        <b-col cols="4">
+          <multiselect
+            v-model="filterForm.ingredients"
+            :options="ingredients"
+            :multiple="true"
+            :close-on-select="false"
+            :taggable="true"
+            @tag="addTag"
+            tag-placeholder="Add this to search"
+            placeholder="Search by Ingredients"
+          >
+          </multiselect>
+        </b-col>
+        <b-col cols="1">
+          <b-button class="formBtn" type="submit" @click="searchCuisines"
+            >Search</b-button
+          >
+        </b-col>
+      </b-row>
+    </div>
     <div class="filterCheckBoxContainer">
       <span class="filterCheckBoxWrap">
         <span
@@ -138,7 +194,7 @@
             />
             <span></span>
             <img
-              v-if="cuisine.spicy === true"
+              v-if="cuisine.vegan === true"
               src="~/assets/vegan.jpeg"
               class="recipeStar"
               width="30"
@@ -209,7 +265,9 @@
   </div>
 </template>
 <script lang="ts">
+import Multiselect from "vue-multiselect";
 export default {
+  components: { Multiselect },
   layout: "header",
   data() {
     return {
@@ -223,6 +281,46 @@ export default {
         cuisine_name: "",
         ingredients: [],
         cuisine_image: ""
+      },
+      ingredients: [
+        "Olive oil",
+        "Garlic",
+        "Onion",
+        "Vegetable oil",
+        "Pepper",
+        "Chicken",
+        "Tomato",
+        "Potato",
+        "Carrot",
+        "flour",
+        "Tomato puree",
+        "Orange",
+        "Bread",
+        "Mushroom",
+        "Coriander",
+        "Sunflower oil",
+        "White wine",
+        "Milk",
+        "Pork sausage",
+        "courgettes",
+        "lemon",
+        "honey",
+        "rice",
+        "beans",
+        "edible flowers",
+        "sesame seeds",
+        "mango",
+        "cinnamon",
+        "mayonnaise",
+        "butter",
+        "cumin"
+      ],
+      filterForm: {
+        vegan: "false",
+        vegetarian: "false",
+        spicy: "0",
+        cuisine_name: "",
+        ingredients: []
       }
     };
   },
@@ -238,6 +336,10 @@ export default {
     );
   },
   methods: {
+    addTag(newTag) {
+      this.ingredients.push(newTag);
+      this.filterForm.ingredients.push(newTag);
+    },
     showFilterPanel: function() {
       this.isFilterPanelVisible = !this.isFilterPanelVisible;
     },
@@ -270,12 +372,54 @@ export default {
       });
       return filters;
     },
-    searchCuisines: function() {}
+    searchCuisines: function(event) {
+      event.preventDefault();
+
+      fetch(process.env.BACKEND_BASE_URL + "cuisines/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          spicy: this.filterForm.spicy,
+          vegetarian: this.filterForm.vegetarian,
+          vegan: this.filterForm.vegan,
+          cuisine_name: this.filterForm.cuisine_name,
+          ingredients: this.filterForm.ingredients
+        })
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(responseJson => {
+          console.log(responseJson);
+          this.cuisines = responseJson;
+          this.filters = this.getFilters();
+          this.filteredCuisines = this.cuisines;
+          this.$toast.success("Search Successfull", {
+            duration: 5000
+          });
+          responseJson.length === 0
+            ? this.$toast.success("No cuisines found", {
+                duration: 5000
+              })
+            : null;
+        })
+        .catch(error => {
+          this.$toast.error(error, {
+            duration: 5000
+          });
+        });
+    }
   },
   fetchOnServer: false
 };
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 .bg {
   margin-top: 20px;
@@ -375,7 +519,7 @@ export default {
   width: 410px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .filter {
@@ -516,12 +660,27 @@ export default {
 }
 
 .filterPanel {
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
   width: 100%;
-  height: 200px;
   margin-top: 20px;
-  padding: 20px 20px;
+  padding: 30px 20px;
   border-radius: 20px;
   transition: 0.3s height ease-in;
   background-color: var(--bg-grey);
+}
+
+.filterPanelRow {
+  width: 100%;
+}
+
+.filterFormInput {
+  margin-right: 10px;
+}
+
+.formBtn {
+  width: 100px;
+  background-color: var(--primary-color);
 }
 </style>

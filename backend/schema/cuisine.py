@@ -19,7 +19,7 @@ class CuisineIngredientModel(BaseModel):
                 "quantity": "",
                 "unit": "",
                 "comment": "",
-                "original_string": ""
+                "original_string": "",
             }
         }
 
@@ -46,5 +46,27 @@ class CuisineModel(BaseModel):
                 "vegetarian": "true",
                 "vegan": "false",
                 "time_to_cook": "20-30",
+                "cuisine_image": "https://placekitten.com/300/300",
+                "cuisine_type": "Dinner",
+            }
+        }
+
+
+class CuisineSearchModel(BaseModel):
+    cuisine_name: str = Field(...)
+    ingredients: List[str] = []
+    spicy: str = Field(...)
+    vegetarian: bool = Field(...)
+    vegan: bool = Field(...)
+
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "cuisine_name": "Chicken Platter",
+                "spicy": "0",
+                "vegetarian": "false",
+                "vegan": "false",
+                "ingredients": ["Chicken", "Onion", "Pepper", "Vegetable oil"],
             }
         }
