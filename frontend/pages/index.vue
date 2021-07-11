@@ -4,8 +4,8 @@
     <h1 class="mainHeading">Find Your Favourite Cuisines</h1>
     <div class="newsStrip">
       <p class="marquee">
-        <span class="marqueeSpan" v-for="ticker of news" :key="ticker._id">
-          <span>
+        <span class="marqueeSpan">
+          <span v-for="ticker of news" :key="ticker._id">
             <img
               src="~/assets/star.svg"
               class="newsStripStart"
@@ -15,6 +15,7 @@
             <p>{{ ticker.title }}</p>
           </span>
           <img
+            v-if="news.length !== 0"
             src="~/assets/star.svg"
             class="newsStripStart"
             width="15"
@@ -50,7 +51,7 @@
             <b-form-radio value="3">3</b-form-radio>
           </b-form-radio-group>
         </b-col>
-        <b-col cols="1">
+        <b-col cols="2">
           <b-form-checkbox
             class="filterFormInput"
             id="checkbox-1"
@@ -61,7 +62,7 @@
             Vegan
           </b-form-checkbox>
         </b-col>
-        <b-col cols="1">
+        <b-col cols="2">
           <b-form-checkbox
             class="filterFormInput"
             id="checkbox-2"
@@ -72,18 +73,7 @@
             Vegetarian
           </b-form-checkbox>
         </b-col>
-        <b-col cols="3">
-          <b-form-input
-            type="text"
-            v-model="filterForm.cuisine_name"
-            placeholder="Search by cuisine Name"
-            trim
-            required
-          >
-          </b-form-input>
-        </b-col>
-
-        <b-col cols="4">
+        <b-col cols="5">
           <multiselect
             v-model="filterForm.ingredients"
             :options="ingredients"
@@ -100,6 +90,40 @@
           <b-button class="formBtn" type="submit" @click="searchCuisines"
             >Search</b-button
           >
+        </b-col>
+      </b-row>
+      <b-row class="filterPanelRow2">
+        <b-col cols="5">
+          <b-form-input
+            type="text"
+            v-model="filterForm.cuisine_name"
+            placeholder="Search by cuisine Name"
+            trim
+            required
+          >
+          </b-form-input>
+        </b-col>
+        <b-col cols="3">
+          <b-form-input
+            type="text"
+            v-model="filterForm.country_cuisine"
+            placeholder="Search by cuisine country origin"
+            trim
+            required
+          >
+          </b-form-input>
+        </b-col>
+        <b-col cols="3">
+          <b-form-input
+            type="text"
+            v-model="filterForm.time_to_cook"
+            placeholder="Search by Time to cook"
+            trim
+            required
+          ></b-form-input>
+        </b-col>
+        <b-col cols="1">
+          <b-button class="formBtnSec" @click="resetSearch()">Reset</b-button>
         </b-col>
       </b-row>
     </div>
@@ -320,7 +344,9 @@ export default {
         vegetarian: "false",
         spicy: "0",
         cuisine_name: "",
-        ingredients: []
+        ingredients: [],
+        country_cuisine: "",
+        time_to_cook: ""
       }
     };
   },
@@ -336,6 +362,26 @@ export default {
     );
   },
   methods: {
+    resetSearch: async function() {
+      this.filterForm = {
+        vegan: "false",
+        vegetarian: "false",
+        spicy: "0",
+        cuisine_name: "",
+        ingredients: [],
+        country_cuisine: "",
+        time_to_cook: ""
+      };
+      this.cuisines = await fetch(
+        process.env.BACKEND_BASE_URL + "cuisines"
+      ).then(res => res.json());
+      this.filters = this.getFilters();
+      this.filteredCuisines = this.cuisines;
+
+      this.news = await fetch(process.env.BACKEND_BASE_URL + "news").then(res =>
+        res.json()
+      );
+    },
     addTag(newTag) {
       this.ingredients.push(newTag);
       this.filterForm.ingredients.push(newTag);
@@ -375,45 +421,109 @@ export default {
     searchCuisines: function(event) {
       event.preventDefault();
 
-      fetch(process.env.BACKEND_BASE_URL + "cuisines/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          spicy: this.filterForm.spicy,
-          vegetarian: this.filterForm.vegetarian,
-          vegan: this.filterForm.vegan,
-          cuisine_name: this.filterForm.cuisine_name,
-          ingredients: this.filterForm.ingredients
+      if (
+        this.filterForm.country_cuisine === "" &&
+        this.filterForm.time_to_cook === ""
+      ) {
+        fetch(process.env.BACKEND_BASE_URL + "cuisines/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            spicy: this.filterForm.spicy,
+            vegetarian: this.filterForm.vegetarian,
+            vegan: this.filterForm.vegan,
+            cuisine_name: this.filterForm.cuisine_name,
+            ingredients: this.filterForm.ingredients
+          })
         })
-      })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Something went wrong");
-          }
-        })
-        .then(responseJson => {
-          console.log(responseJson);
-          this.cuisines = responseJson;
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Something went wrong");
+            }
+          })
+          .then(responseJson => {
+            this.cuisines = responseJson;
+            this.filters = this.getFilters();
+            this.filteredCuisines = this.cuisines;
+            this.$toast.success("Search Successfull", {
+              duration: 5000
+            });
+            responseJson.length === 0
+              ? this.$toast.success("No cuisines found", {
+                  duration: 5000
+                })
+              : null;
+          })
+          .catch(error => {
+            this.$toast.error(error, {
+              duration: 5000
+            });
+          });
+      } else {
+        if (
+          this.filterForm.country_cuisine !== "" &&
+          this.filterForm.time_to_cook !== ""
+        ) {
+          this.cuisines = this.cuisines.filter(
+            cuisine =>
+              cuisine.country_cuisine.indexOf(
+                this.filterForm.country_cuisine
+              ) !== -1
+          );
+          this.cuisines = this.cuisines.filter(cuisine =>
+            cuisine.time_to_cook.match(
+              new RegExp(this.filterForm.time_to_cook, "gi")
+            )
+          );
           this.filters = this.getFilters();
           this.filteredCuisines = this.cuisines;
           this.$toast.success("Search Successfull", {
             duration: 5000
           });
-          responseJson.length === 0
+          this.cuisines.length === 0
             ? this.$toast.success("No cuisines found", {
                 duration: 5000
               })
             : null;
-        })
-        .catch(error => {
-          this.$toast.error(error, {
+        } else if (this.filterForm.time_to_cook !== "" && this.filterForm.country_cuisine === "") {
+          this.cuisines = this.cuisines.filter(cuisine =>
+            cuisine.time_to_cook.match(
+              new RegExp(this.filterForm.time_to_cook, "gi")
+            )
+          );
+          this.filters = this.getFilters();
+          this.filteredCuisines = this.cuisines;
+          this.$toast.success("Search Successfull", {
             duration: 5000
           });
-        });
+          this.cuisines.length === 0
+            ? this.$toast.success("No cuisines found", {
+                duration: 5000
+              })
+            : null;
+        } else if (this.filterForm.country_cuisine !== "" && this.filterForm.time_to_cook === "") {
+          this.cuisines = this.cuisines.filter(
+            cuisine =>
+              cuisine.country_cuisine.indexOf(
+                this.filterForm.country_cuisine
+              ) !== -1
+          );
+          this.filters = this.getFilters();
+          this.filteredCuisines = this.cuisines;
+          this.$toast.success("Search Successfull", {
+            duration: 5000
+          });
+          this.cuisines.length === 0
+            ? this.$toast.success("No cuisines found", {
+                duration: 5000
+              })
+            : null;
+        }
+      }
     }
   },
   fetchOnServer: false
@@ -675,6 +785,11 @@ export default {
   width: 100%;
 }
 
+.filterPanelRow2 {
+  width: 100%;
+  margin-top: 10px;
+}
+
 .filterFormInput {
   margin-right: 10px;
 }
@@ -682,5 +797,10 @@ export default {
 .formBtn {
   width: 100px;
   background-color: var(--primary-color);
+}
+
+.formBtnSec {
+  width: 100px;
+  background-color: var(--secondary-color);
 }
 </style>

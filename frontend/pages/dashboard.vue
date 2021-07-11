@@ -268,7 +268,9 @@
           </b-row>
           <div class="btnContainer">
             <b-button class="formBtn" type="submit">Submit</b-button>
-            <b-button class="formBtn">Logout</b-button>
+            <b-button class="formBtnSec" @click="getLoggedOut()"
+              >Logout</b-button
+            >
           </div>
         </b-form>
         <p v-else>Please login to see your dashboard</p>
@@ -297,6 +299,18 @@ export default {
     };
   },
   methods: {
+    getLoggedOut: function() {
+      if (process.browser) {
+        if (localStorage.getItem("authToken")) {
+          console.log("ekas");
+          localStorage.removeItem("authToken");
+          this.$toast.success("Successfully Logged Out", {
+            duration: 5000
+          });
+          this.$router.push("/login");
+        }
+      }
+    },
     recordAudio(state) {
       const self = this;
       // testa se o navegador suporta o reconhecimento de voz
@@ -414,6 +428,11 @@ export default {
 .formBtn {
   width: 200px;
   background-color: var(--primary-color);
+}
+
+.formBtnSec {
+  width: 200px;
+  background-color: var(--secondary-color);
 }
 
 .speechBtn {
