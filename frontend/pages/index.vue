@@ -273,7 +273,7 @@
     </div>
     <b-modal id="cuisine-modal" :title="modalData.cuisine_name" size="lg">
       <div class="cardTitleRowModal">
-        <img :src="modalData.cuisine_image" />
+        <img :src="modalData.cuisine_image" class="modalImage" />
         <h3>Ingredients</h3>
         <div class="recipeTagsContainerModal">
           <span
@@ -489,7 +489,10 @@ export default {
                 duration: 5000
               })
             : null;
-        } else if (this.filterForm.time_to_cook !== "" && this.filterForm.country_cuisine === "") {
+        } else if (
+          this.filterForm.time_to_cook !== "" &&
+          this.filterForm.country_cuisine === ""
+        ) {
           this.cuisines = this.cuisines.filter(cuisine =>
             cuisine.time_to_cook.match(
               new RegExp(this.filterForm.time_to_cook, "gi")
@@ -505,7 +508,10 @@ export default {
                 duration: 5000
               })
             : null;
-        } else if (this.filterForm.country_cuisine !== "" && this.filterForm.time_to_cook === "") {
+        } else if (
+          this.filterForm.country_cuisine !== "" &&
+          this.filterForm.time_to_cook === ""
+        ) {
           this.cuisines = this.cuisines.filter(
             cuisine =>
               cuisine.country_cuisine.indexOf(
@@ -748,6 +754,10 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+.modalImage {
+  width: 100%;
 }
 
 .recipeTag {
