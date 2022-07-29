@@ -12,7 +12,7 @@ class ServerSettings(BaseSettings):
 
 
 class DatabaseSettings(BaseSettings):
-    DB_URL: str = "mongodb+srv://admin:241293%40Ekas@taads.18ujb.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-va2i39-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
+    DB_URL: str = "mongodb+srv://admin:241293%40Ekas@taads.18ujb.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-va2i39-shard-0&w=majority&readPreference=primary&retryWrites=true&ssl=true"
     DB_NAME: str = "taads"
 
 
